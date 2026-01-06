@@ -1,0 +1,380 @@
+@model mess_management.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    ViewData["HideBackButton"] = true;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Mess Management System</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #f43f5e;
+            --surface: rgba(255, 255, 255, 0.7);
+            --border: rgba(255, 255, 255, 0.4);
+            --text-heading: #0f172a;
+            --text-body: #475569;
+            --text-muted: #94a3b8;
+            --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background: #0f172a url('/images/login_bg.png') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+            position: relative;
+            padding-left: 5%;
+        }
+
+        /* Sophisticated overlay for depth */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.3) 50%, rgba(15, 23, 42, 0.1) 100%);
+            z-index: 1;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            perspective: 1000px;
+        }
+
+        .login-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 3.5rem;
+            box-shadow: var(--shadow-premium);
+            animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
+        }
+
+        .login-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.75);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        @@keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px) rotateY(-10deg); }
+            to { opacity: 1; transform: translateX(0) rotateY(0); }
+        }
+
+        .brand-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .brand-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .brand-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-subtitle {
+            color: var(--text-body);
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.75rem;
+            margin-left: 4px;
+        }
+
+        .input-control-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-control-wrapper i.field-icon {
+            position: absolute;
+            left: 1.25rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-control {
+            height: 58px;
+            padding: 0 1.25rem 0 3.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid transparent;
+            border-radius: 18px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        .form-control:focus {
+            background: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            outline: none;
+        }
+
+        .form-control:focus + i.field-icon {
+            color: var(--primary);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 5;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-signin {
+            width: 100%;
+            height: 58px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 24px -6px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-signin:hover {
+            background: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px -8px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-signin:active {
+            transform: translateY(-1px);
+        }
+
+        .validation-summary {
+            background: rgba(244, 63, 94, 0.12);
+            border-left: 4px solid var(--accent);
+            padding: 1.25rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .validation-summary ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .text-danger {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 0.6rem;
+            display: block;
+            margin-left: 4px;
+        }
+
+        /* Subtle floating animation for the card */
+        @@keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive Improvements */
+        @@media (max-width: 992px) {
+            body { padding-left: 5%; }
+        }
+
+        @@media (max-width: 768px) {
+            body {
+                padding-left: 0;
+                justify-content: center;
+            }
+            body::before {
+                background: rgba(15, 23, 42, 0.8);
+            }
+            .login-card {
+                padding: 2.5rem;
+                border-radius: 28px;
+                margin: 1.5rem;
+            }
+            .brand-title { font-size: 1.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <header class="brand-header">
+                <div class="brand-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h1 class="brand-title">Welcome to the<br>Mess Management System</h1>
+                <p class="brand-subtitle">Mess Management Portal</p>
+            </header>
+
+            <form asp-action="Login" method="post" autocomplete="off">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+                }
+
+                <div class="form-group">
+                    <label asp-for="Email" class="input-label">Email Address</label>
+                    <div class="input-control-wrapper">
+                        <input asp-for="Email" class="form-control" placeholder="example@mail.com" />
+                        <i class="fas fa-envelope field-icon"></i>
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="input-label">Password</label>
+                    <div class="input-control-wrapper">
+                        <input asp-for="Password" type="password" id="passwordInput" class="form-control" placeholder="Your Security Key" />
+                        <i class="fas fa-lock field-icon"></i>
+                        <button type="button" class="password-toggle" id="togglePassword" title="Show/Hide Password">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn-signin" id="submitBtn">
+                    <span>Sign In to Portal</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Password Toggle Logic
+            $('#togglePassword').on('click', function(e) {
+                e.preventDefault();
+                const passwordInput = $('#passwordInput');
+                const toggleIcon = $('#toggleIcon');
+                
+                if (passwordInput.attr('type') === 'password') {
+                    passwordInput.attr('type', 'text');
+                    toggleIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+                } else {
+                    passwordInput.attr('type', 'password');
+                    toggleIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+                
+                // Keep focus on input after toggle
+                passwordInput.focus();
+            });
+
+            // Form Submit Animation
+            $('form').on('submit', function() {
+                if ($(this).valid()) {
+                    const $btn = $('#submitBtn');
+                    $btn.prop('disabled', true);
+                    $btn.find('span').text('Verifying...');
+                    $btn.find('i').attr('class', 'fas fa-circle-notch fa-spin');
+                    $btn.css('opacity', '0.8');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

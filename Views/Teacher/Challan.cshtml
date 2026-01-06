@@ -1,0 +1,247 @@
+@model mess_management.Models.MonthlyBill
+
+@{
+    Layout = null; // No layout for printable challan
+    var teacherName = Model.Teacher?.FullName ?? "Unknown Teacher";
+    var billMonth = Model.Month?.ToString("00") ?? "00";
+    var billYear = Model.Year?.ToString() ?? "0000";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Challan - @teacherName (@billMonth/@billYear)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+
+        .challan-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .challan-segment {
+            border: 2px solid #333;
+            padding: 15px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .challan-header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .challan-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .copy-label {
+            display: inline-block;
+            background: #333;
+            color: #fff;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .bill-details {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .bill-details table {
+            width: 100%;
+        }
+
+        .bill-details td {
+            padding: 3px 0;
+        }
+
+        .amount-table {
+            width: 100%;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            border-collapse: collapse;
+        }
+
+        .amount-table th {
+            text-align: left;
+            border-bottom: 2px solid #333;
+            padding: 5px;
+        }
+
+        .amount-table td {
+            padding: 8px 5px;
+            border-bottom: 1px dotted #999;
+        }
+
+        .total-row {
+            font-weight: bold;
+            font-size: 1.1rem;
+            background: #f1f1f1;
+            border-top: 2px solid #333;
+        }
+
+        .footer-note {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: auto;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            text-align: center;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            font-size: 0.85rem;
+        }
+
+        .sig-line {
+            border-top: 1px solid #333;
+            width: 120px;
+            text-align: center;
+            padding-top: 5px;
+        }
+
+        @@media print {
+            body {
+                background: none;
+                margin: 0;
+                padding: 0;
+            }
+            .challan-container {
+                box-shadow: none;
+                width: 100%;
+                max-width: none;
+                margin: 0;
+                padding: 5mm;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .col-md-4 {
+                width: 33.333333%;
+                float: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container no-print mt-4 mb-2 text-center">
+        <button onclick="window.print()" class="btn btn-primary btn-lg px-5 shadow">
+            <i class="fas fa-print me-2"></i> Print Challan
+        </button>
+        <button onclick="window.close()" class="btn btn-outline-secondary btn-lg ms-3">
+            <i class="fas fa-times me-2"></i> Close
+        </button>
+    </div>
+
+    <div class="challan-container">
+        <div class="row g-4">
+            @foreach (var copy in new[] { "Bank Copy", "Office Copy", "Teacher Copy" })
+            {
+                <div class="col-md-4">
+                    <div class="challan-segment">
+                        <div class="text-end">
+                            <span class="copy-label">@copy</span>
+                        </div>
+
+                        <div class="challan-header">
+                            <i class="fas fa-university fa-2x mb-2"></i>
+                            <div class="challan-title">Mess Management System</div>
+                            <div class="small">Payment Challan</div>
+                        </div>
+
+                        <div class="bill-details">
+                            <table>
+                                <tr>
+                                    <td class="fw-bold" style="width: 80px;">Name:</td>
+                                    <td>@teacherName</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Month:</td>
+                                    <td>@billMonth/@billYear</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Challan #:</td>
+                                    <td>@Model.Id.ToString("D6")</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Date:</td>
+                                    <td>@Model.GeneratedOn?.ToString("dd-MMM-yyyy")</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <table class="amount-table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Food Cost</td>
+                                    <td class="text-end">Rs. @Model.FoodAmount?.ToString("N0")</td>
+                                </tr>
+                                <tr>
+                                    <td>Water Charges</td>
+                                    <td class="text-end">Rs. @Model.WaterShare?.ToString("N0")</td>
+                                </tr>
+                                <tr>
+                                    <td>Arrears</td>
+                                    <td class="text-end">Rs. @Model.PreviousDue?.ToString("N0")</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td class="pt-2">TOTAL PAYABLE</td>
+                                    <td class="text-end pt-2">Rs. @Model.TotalDue?.ToString("N0")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-3 small">
+                            <strong>Amount in words:</strong><br/>
+                            <span class="text-muted fst-italic">Payment due within 10 days of issue.</span>
+                        </div>
+
+                        <div class="signatures">
+                            <div class="sig-line">Cashier</div>
+                            <div class="sig-line">Depositor</div>
+                        </div>
+
+                        <div class="footer-note">
+                            Computer generated document.
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</body>
+</html>

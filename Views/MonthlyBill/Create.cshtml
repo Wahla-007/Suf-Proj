@@ -1,0 +1,138 @@
+@model mess_management.Models.MonthlyBill
+
+@{
+    ViewData["Title"] = "Create";
+    ViewData["HideBackButton"] = true;
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-9 col-lg-8">
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-header bg-dark text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-file-invoice-dollar me-2"></i> Create Monthly Bill</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    
+                    <div class="row">
+                        <!-- Left Column: User & Timing -->
+                        <div class="col-md-6 border-end">
+                            <h6 class="text-muted fw-bold text-uppercase small mb-3">Target Details</h6>
+                            <div class="form-group mb-3">
+                                <label asp-for="TeacherId" class="form-label fw-bold">Teacher</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-user-circle"></i></span>
+                                    <select asp-for="TeacherId" class="form-select" asp-items="ViewBag.TeacherId"></select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="Month" class="form-label fw-bold"></label>
+                                        <input asp-for="Month" class="form-control" type="number" min="1" max="12" value="@DateTime.Now.Month" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="Year" class="form-label fw-bold"></label>
+                                        <input asp-for="Year" class="form-control" type="number" value="@DateTime.Now.Year" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Meal Metrics -->
+                        <div class="col-md-6 ps-md-4">
+                            <h6 class="text-muted fw-bold text-uppercase small mb-3">Consumption & Charges</h6>
+                            <div class="form-group mb-3">
+                                <label asp-for="TotalMeals" class="form-label fw-bold"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-utensils"></i></span>
+                                    <input asp-for="TotalMeals" class="form-control" placeholder="0" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="FoodAmount" class="form-label fw-bold"></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light fw-bold text-muted">Rs.</span>
+                                            <input asp-for="FoodAmount" class="form-control" placeholder="0.00" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="WaterShare" class="form-label fw-bold"></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light fw-bold text-muted">Rs.</span>
+                                            <input asp-for="WaterShare" class="form-control" placeholder="0.00" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <div class="row">
+                        <!-- Balances -->
+                        <div class="col-md-6">
+                            <h6 class="text-muted fw-bold text-uppercase small mb-3">Balance Information</h6>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group mb-3 text-warning">
+                                        <label asp-for="PreviousDue" class="form-label fw-bold"></label>
+                                        <input asp-for="PreviousDue" class="form-control border-warning" placeholder="0.00" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group mb-3 text-danger">
+                                        <label asp-for="TotalDue" class="form-label fw-bold"></label>
+                                        <input asp-for="TotalDue" class="form-control border-danger fw-bold" placeholder="0.00" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Pre-entry -->
+                        <div class="col-md-6 ps-md-4">
+                            <h6 class="text-muted fw-bold text-uppercase small mb-3">Payment Recording (Initial)</h6>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group mb-3 text-success">
+                                        <label asp-for="PaidAmount" class="form-label fw-bold"></label>
+                                        <input asp-for="PaidAmount" class="form-control border-success" placeholder="0.00" />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="PaidOn" class="form-label fw-bold"></label>
+                                        <input asp-for="PaidOn" class="form-control" type="date" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4 mt-2">
+                        <label asp-for="PaymentToken" class="form-label fw-bold text-muted small">Reference / Token ID</label>
+                        <input asp-for="PaymentToken" class="form-control form-control-sm bg-light" placeholder="Optional reference..." />
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 border-top pt-4">
+                        <button type="submit" class="btn btn-dark px-5 py-2">
+                            <i class="fas fa-check-circle me-2"></i> Create Bill
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                            <i class="fas fa-arrow-left me-2"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

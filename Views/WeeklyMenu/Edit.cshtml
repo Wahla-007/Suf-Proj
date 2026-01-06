@@ -1,0 +1,101 @@
+@model mess_management.Models.WeeklyMenu
+
+@{
+    ViewData["Title"] = "Edit";
+    ViewData["HideBackButton"] = true;
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-9">
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-header bg-dark text-white py-3">
+                <h4 class="mb-0"><i class="fas fa-calendar-week me-2"></i> Edit Weekly Menu</h4>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="Id" />
+                    
+                    <div class="row">
+                        <!-- Left Column: Week Details -->
+                        <div class="col-md-6 border-end">
+                            <h6 class="text-muted fw-bold text-uppercase small mb-3">Week Information</h6>
+                            
+                            <div class="form-group mb-3">
+                                <label asp-for="WeekStartDate" class="form-label fw-bold">Week Start Date</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-calendar-alt"></i></span>
+                                    <input asp-for="WeekStartDate" class="form-control" type="date" />
+                                </div>
+                                <span asp-validation-for="WeekStartDate" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="CreatedById" class="form-label fw-bold">Created By</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-user-circle"></i></span>
+                                    <select asp-for="CreatedById" class="form-select" asp-items="ViewBag.CreatedById"></select>
+                                </div>
+                                <span asp-validation-for="CreatedById" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="CreatedAt" class="form-label fw-bold">Created At</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-clock"></i></span>
+                                    <input asp-for="CreatedAt" class="form-control" readonly />
+                                </div>
+                                <span asp-validation-for="CreatedAt" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Meal Rates -->
+                        <div class="col-md-6 ps-md-4">
+                            <h6 class="text-muted fw-bold text-uppercase small mb-3">Meal Rates</h6>
+                            
+                            <div class="form-group mb-3">
+                                <label asp-for="BreakfastRate" class="form-label fw-bold">Breakfast Rate</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-coffee"></i></span>
+                                    <span class="input-group-text bg-light fw-bold text-muted">Rs.</span>
+                                    <input asp-for="BreakfastRate" class="form-control" placeholder="0.00" />
+                                </div>
+                                <span asp-validation-for="BreakfastRate" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="LunchRate" class="form-label fw-bold">Lunch Rate</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-hamburger"></i></span>
+                                    <span class="input-group-text bg-light fw-bold text-muted">Rs.</span>
+                                    <input asp-for="LunchRate" class="form-control" placeholder="0.00" />
+                                </div>
+                                <span asp-validation-for="LunchRate" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label asp-for="DinnerRate" class="form-label fw-bold">Dinner Rate</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-utensils"></i></span>
+                                    <span class="input-group-text bg-light fw-bold text-muted">Rs.</span>
+                                    <input asp-for="DinnerRate" class="form-control" placeholder="0.00" />
+                                </div>
+                                <span asp-validation-for="DinnerRate" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 border-top pt-4">
+                        <button type="submit" class="btn btn-dark px-5 py-2">
+                            <i class="fas fa-save me-2"></i> Save Changes
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                            <i class="fas fa-arrow-left me-2"></i> Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

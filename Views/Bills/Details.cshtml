@@ -1,0 +1,144 @@
+@model mess_management.Models.Bill
+
+@{
+    ViewData["Title"] = "Bill Details";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <!-- Header Section -->
+                <div class="card-header bg-gradient-primary-purple p-4 d-flex justify-content-between align-items-center border-0" style="background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);">
+                    <h3 class="mb-0 text-white fw-bold">
+                        <i class="fas fa-file-invoice-dollar me-2"></i>Bill #@Model.Id
+                    </h3>
+                    <div class="d-flex align-items-center gap-3">
+                        @if (Model.Status == "Paid")
+                        {
+                            <span class="badge bg-white text-success px-4 py-2 rounded-pill fw-bold">
+                                <i class="fas fa-check-circle me-1"></i> PAID
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-white text-warning px-4 py-2 rounded-pill fw-bold">
+                                <i class="fas fa-clock me-1"></i> PENDING
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="card-body p-5">
+                    <!-- Top Info Grid -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-3">
+                            <div class="p-4 rounded-4 bg-light text-center h-100 border border-white shadow-sm">
+                                <p class="text-muted small text-uppercase fw-bold mb-1">Teacher</p>
+                                <h6 class="fw-bold mb-0">@Model.Teacher?.Email</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-4 rounded-4 bg-light text-center h-100 border border-white shadow-sm">
+                                <p class="text-muted small text-uppercase fw-bold mb-1">Billing Period</p>
+                                <h6 class="fw-bold mb-0">@Model.Year / @Model.Month.ToString("D2")</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-4 rounded-4 bg-light text-center h-100 border border-white shadow-sm">
+                                <p class="text-muted small text-uppercase fw-bold mb-1">Generated On</p>
+                                <h6 class="fw-bold mb-0">@Model.GeneratedOn.ToString("dd MMM yyyy")</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-4 rounded-4 bg-light text-center h-100 border border-white shadow-sm">
+                                <p class="text-muted small text-uppercase fw-bold mb-1">Total Meals</p>
+                                <h6 class="fw-bold mb-0">@Model.TotalMealsAmount.ToString("N0") items</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Line Items Table -->
+                    <div class="table-responsive rounded-4 border mb-5">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4 py-3 border-0 text-muted small text-uppercase fw-bold">Date</th>
+                                    <th class="py-3 border-0 text-muted small text-uppercase fw-bold">Meal Description</th>
+                                    <th class="pe-4 py-3 border-0 text-end text-muted small text-uppercase fw-bold">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var l in Model.Lines.OrderBy(x => x.Date))
+                                {
+                                    <tr>
+                                        <td class="ps-4 py-3 border-bottom-0">@l.Date.ToString("dd MMM yyyy")</td>
+                                        <td class="py-3 border-bottom-0">
+                                            <span class="badge bg-indigo-soft text-indigo px-2 py-1 rounded">@l.MealType</span>
+                                        </td>
+                                        <td class="pe-4 py-3 border-bottom-0 text-end fw-bold">Rs. @l.Price.ToString("N2")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Financial Summary Footer -->
+                    <div class="row justify-content-end">
+                        <div class="col-md-5">
+                            <div class="p-4 rounded-4 bg-white border shadow-sm">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Meals Total:</span>
+                                    <span>Rs. @Model.Lines.Sum(l => l.Price).ToString("N2")</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Water Fee:</span>
+                                    <span>Rs. @Model.WaterFee.ToString("N2")</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="text-muted">Previous Due:</span>
+                                    <span class="text-danger">Rs. @Model.PreviousDue.ToString("N2")</span>
+                                </div>
+                                <hr class="my-3 opacity-10">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">Total Payable</h5>
+                                    <h4 class="mb-0 fw-800 text-primary">Rs. @Model.TotalDue.ToString("N2")</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Bar -->
+                    <div class="mt-5 pt-4 border-top d-flex justify-content-between align-items-center">
+                        <a asp-action="Index" class="btn btn-light rounded-pill px-4 py-2 border">
+                            <i class="fas fa-arrow-left me-2"></i>Back to List
+                        </a>
+
+                        @if (Model.Status != "Paid")
+                        {
+                            <form asp-action="MarkPaid" method="post">
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <button type="submit" class="btn btn-success rounded-pill px-5 py-3 fw-bold shadow-sm hover-up">
+                                    <i class="fas fa-check-circle me-2"></i>Confirm & Mark as Paid
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-success rounded-pill px-5 py-3 fw-bold disabled">
+                                <i class="fas fa-receipt me-2"></i>Payment Received on @Model.PaidOn?.ToString("dd MMM")
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-indigo-soft { background-color: rgba(99, 102, 241, 0.1); }
+    .text-indigo { color: #6366f1; }
+    .fw-800 { font-weight: 800; }
+    .hover-up:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; transition: all 0.3s ease; }
+</style>

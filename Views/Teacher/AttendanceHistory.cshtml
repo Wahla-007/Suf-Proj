@@ -1,0 +1,104 @@
+@model List<mess_management.Models.TeacherAttendance>
+
+@{
+    ViewData["Title"] = "Attendance History";
+    ViewData["HideBackButton"] = true;
+}
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="page-header mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="display-5 font-weight-bold"><i class="fas fa-calendar-check text-primary"></i> Attendance History</h1>
+                        <p class="lead text-muted">A clear record of your meal consumption</p>
+                    </div>
+                    <a href="@Url.Action("Dashboard", "Teacher")" class="btn btn-outline-secondary px-4">
+                        <i class="fas fa-arrow-left me-2"></i> Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="card border-0 shadow-sm overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr class="text-muted">
+                            <th class="ps-4">Date</th>
+                            <th class="text-center">Breakfast</th>
+                            <th class="text-center">Lunch</th>
+                            <th class="text-center">Dinner</th>
+                            <th class="text-center">Status</th>
+                            <th>Notes</th>
+                            <th class="text-center pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var record in Model.OrderByDescending(r => r.Date))
+                        {
+                            <tr>
+                                <td class="ps-4 py-3">
+                                    <span class="fw-bold">@record.Date?.ToString("dd-MM-yyyy")</span>
+                                </td>
+                                <td class="text-center">
+                                    @if (record.Breakfast == true) { <span class="badge bg-success-subtle text-success">Yes</span> }
+                                    else { <span class="badge bg-light text-muted">No</span> }
+                                </td>
+                                <td class="text-center">
+                                    @if (record.Lunch == true) { <span class="badge bg-success-subtle text-success">Yes</span> }
+                                    else { <span class="badge bg-light text-muted">No</span> }
+                                </td>
+                                <td class="text-center">
+                                    @if (record.Dinner == true) { <span class="badge bg-success-subtle text-success">Yes</span> }
+                                    else { <span class="badge bg-light text-muted">No</span> }
+                                </td>
+                                <td class="text-center">
+                                    @if (record.IsVerified == true) { <span class="badge bg-success text-white">Verified</span> }
+                                    else if (record.IsVerified == false) { <span class="badge bg-danger text-white">Rejected</span> }
+                                    else { <span class="badge bg-warning text-dark">Pending</span> }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(record.DisputeReason))
+                                    {
+                                        <div class="small text-danger fw-bold">Dispute: @record.DisputeReason</div>
+                                    }
+                                    else if (!string.IsNullOrEmpty(record.VerificationNote))
+                                    {
+                                        <div class="small text-muted">Note: @record.VerificationNote</div>
+                                    }
+                                </td>
+                                <td class="text-center pe-4">
+                                    @if ((record.DisputeStatus == "None" || string.IsNullOrEmpty(record.DisputeStatus)) && User.Claims.FirstOrDefault(c => c.Type == "isAdmin")?.Value != "true")
+                                    {
+                                        <a href="@Url.Action("RaiseDispute", "Teacher", new { id = record.Id })" class="btn btn-sm btn-outline-danger px-3">
+                                            Dispute
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge @(record.DisputeStatus == "Raised" ? "bg-warning text-dark" : record.DisputeStatus == "Approved" ? "bg-success" : "bg-secondary")">
+                                            @record.DisputeStatus
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .bg-success-subtle { background-color: #d1fae5; color: #065f46; }
+    .page-header { border-bottom: 2px solid #eee; }
+</style>

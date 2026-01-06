@@ -1,0 +1,125 @@
+@model mess_management.Models.TeacherAttendance
+
+@{
+    ViewData["Title"] = "Edit";
+    ViewData["HideBackButton"] = true;
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form asp-action="Edit" class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white py-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-edit fa-lg me-3"></i>
+                        <div>
+                            <h5 class="mb-0 fw-bold">Edit Attendance Record</h5>
+                            <small class="opacity-75">Update meal details and verification status</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3" role="alert"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <!-- Teacher & Date Section -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="TeacherId" class="form-label fw-bold small text-uppercase text-muted">Teacher</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-user text-primary"></i></span>
+                                <select asp-for="TeacherId" class="form-select border-start-0 bg-light" asp-items="ViewBag.TeacherId" style="pointer-events: none;"></select>
+                            </div>
+                            <span asp-validation-for="TeacherId" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Date" class="form-label fw-bold small text-uppercase text-muted">Date</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0"><i class="far fa-calendar-alt text-success"></i></span>
+                                <input asp-for="Date" class="form-control border-start-0" type="date" />
+                            </div>
+                            <span asp-validation-for="Date" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <hr class="text-muted opacity-25 my-4">
+
+                    <!-- Meals Section -->
+                    <h6 class="fw-bold text-dark mb-3"><i class="fas fa-utensils me-2 text-warning"></i>Meal Consumption</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center">
+                                <label class="form-check-label fw-bold" for="Breakfast">Breakfast</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="Breakfast" style="width: 3em; height: 1.5em; cursor: pointer;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center">
+                                <label class="form-check-label fw-bold" for="Lunch">Lunch</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="Lunch" style="width: 3em; height: 1.5em; cursor: pointer;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded-3 bg-light d-flex justify-content-between align-items-center">
+                                <label class="form-check-label fw-bold" for="Dinner">Dinner</label>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="Dinner" style="width: 3em; height: 1.5em; cursor: pointer;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="text-muted opacity-25 my-4">
+
+                    <!-- Administrative Section -->
+                    <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-shield me-2 text-danger"></i>Administrative Action</h6>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="IsVerified" class="form-label fw-bold small text-uppercase text-muted">Verification Status</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0"><i class="fas fa-check-circle text-muted"></i></span>
+                                <select asp-for="IsVerified" class="form-select border-start-0">
+                                    <option value="">Pending Review</option>
+                                    <option value="true">Verified / Approved</option>
+                                    <option value="false">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="MarkedBy" class="form-label fw-bold small text-uppercase text-muted">Marked By</label>
+                            <input asp-for="MarkedBy" class="form-control bg-light" readonly />
+                        </div>
+                        
+                        <div class="col-12">
+                            <label asp-for="VerificationNote" class="form-label fw-bold small text-uppercase text-muted">Admin Remarks / Notes</label>
+                            <textarea asp-for="VerificationNote" class="form-control" rows="3" placeholder="Add any notes regarding this record..."></textarea>
+                            <span asp-validation-for="VerificationNote" class="text-danger small"></span>
+                        </div>
+                        
+                        <!-- Hidden system fields usually, but visible if needed. Let's keep VerifiedAt hidden as it's auto-set on verification -->
+                        <input type="hidden" asp-for="VerifiedAt" />
+                    </div>
+
+                </div>
+                
+                <div class="card-footer bg-light py-4 border-top-0 text-end">
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 me-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm">
+                        <i class="fas fa-save me-2"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

@@ -1,0 +1,227 @@
+@model List<mess_management.Models.MonthlyBill>
+
+@{
+    ViewData["Title"] = "My Bills";
+    ViewData["HideBackButton"] = true;
+    
+    // Calculate totals safely
+    var unpaidAmount = Model?.Where(b => b.Status != "Paid").Sum(b => b.TotalDue ?? 0) ?? 0;
+    var paidAmount = Model?.Where(b => b.Status == "Paid").Sum(b => b.PaidAmount ?? 0) ?? 0;
+    var totalOutstanding = Model?.Sum(b => b.TotalDue ?? 0) ?? 0;
+    var totalEntries = Model?.Count ?? 0;
+}
+
+<div class="container-fluid mt-4 mb-5">
+    
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="display-5 fw-bold text-gradient">
+                <i class="fas fa-file-invoice-dollar me-3"></i>My Bills
+            </h1>
+            <p class="text-secondary lead mb-0">Track your billing history and download challans.</p>
+        </div>
+        <a href="@Url.Action("Dashboard", "Teacher")" class="btn btn-outline-secondary btn-lg rounded-pill px-4 hover-lift">
+            <i class="fas fa-arrow-left me-2"></i>Dashboard
+        </a>
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <!-- Modern Premium Stats Cards -->
+        <div class="row g-4 mb-5">
+            <!-- Unpaid -->
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden hover-lift transition-all">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-sq bg-soft-danger text-danger rounded-3 me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-wallet fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-uppercase small fw-bold text-muted mb-0">Amount Due</h6>
+                                <span class="badge bg-danger-subtle text-danger rounded-pill px-2 py-1 mt-1" style="font-size: 0.7rem;">Action Required</span>
+                            </div>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-0">Rs. @unpaidAmount.ToString("N0")</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paid -->
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden hover-lift transition-all">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-sq bg-soft-success text-success rounded-3 me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-check-circle fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-uppercase small fw-bold text-muted mb-0">Total Paid</h6>
+                                <span class="badge bg-success-subtle text-success rounded-pill px-2 py-1 mt-1" style="font-size: 0.7rem;">Settled</span>
+                            </div>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-0">Rs. @paidAmount.ToString("N0")</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden hover-lift transition-all">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-sq bg-soft-warning text-warning rounded-3 me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-chart-pie fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-uppercase small fw-bold text-muted mb-0">Total Billed</h6>
+                                <span class="badge bg-warning-subtle text-warning rounded-pill px-2 py-1 mt-1" style="font-size: 0.7rem;">Lifetime</span>
+                            </div>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-0">Rs. @totalOutstanding.ToString("N0")</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entries -->
+            <div class="col-md-3">
+                 <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden hover-lift transition-all">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-sq bg-soft-primary text-primary rounded-3 me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-file-invoice fa-lg"></i>
+                            </div>
+                            <div>
+                                <h6 class="text-uppercase small fw-bold text-muted mb-0">Total Bills</h6>
+                                <span class="badge bg-primary-subtle text-primary rounded-pill px-2 py-1 mt-1" style="font-size: 0.7rem;">Records</span>
+                            </div>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-0">@totalEntries</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-5">
+            <div class="card-header bg-white p-4 border-0 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-dark"><i class="fas fa-history me-2 text-primary"></i>Billing History</h5>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 custom-table">
+                    <thead class="bg-light">
+                        <tr class="text-uppercase small text-secondary">
+                            <th class="ps-4 py-3">Billing Month</th>
+                            <th class="py-3">Details</th>
+                            <th class="py-3">Amount Breakdown</th>
+                            <th class="py-3 text-end">Total</th>
+                            <th class="py-3 text-center">Status</th>
+                            <th class="py-3 text-center pe-4">Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bill in Model.OrderByDescending(b => b.Year).ThenByDescending(b => b.Month))
+                        {
+                            var monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(bill.Month ?? 1);
+                            
+                            <tr class="border-bottom-dashed">
+                                <td class="ps-4 py-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-sq bg-light text-primary me-3 rounded-3 shadow-sm" style="width:45px;height:45px;display:flex;align-items:center;justify-content:center;">
+                                            <span class="fw-bold">@bill.Month.ToString()</span>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-dark">@monthName @bill.Year</h6>
+                                            <small class="text-muted">ID: #@bill.Id</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <span class="badge bg-light text-dark border"><i class="fas fa-utensils me-1 text-secondary"></i> @bill.TotalMeals Meals</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="small">
+                                        <div class="d-flex justify-content-between" style="width:160px">
+                                            <span class="text-muted">Food:</span>
+                                            <span class="fw-medium">Rs. @(bill.FoodAmount.HasValue ? bill.FoodAmount.Value.ToString("N0") : "-")</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between" style="width:160px">
+                                            <span class="text-muted">Water:</span>
+                                            <span class="fw-medium">Rs. @(bill.WaterShare.HasValue ? bill.WaterShare.Value.ToString("N0") : "-")</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <h5 class="mb-0 fw-bold text-dark">Rs. @(bill.TotalDue.HasValue ? bill.TotalDue.Value.ToString("N0") : "-")</h5>
+                                </td>
+                                <td class="text-center">
+                                    @if (bill.Status == "Paid") {
+                                        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill"><i class="fas fa-check me-1"></i> Paid</span>
+                                    } else {
+                                        <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill"><i class="fas fa-clock me-1"></i> Pending</span>
+                                    }
+                                </td>
+                                <td class="text-center pe-4">
+                                    <a href="@Url.Action("PrintChallan", "Teacher", new { id = bill.Id })" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 hover-lift">
+                                        <i class="fas fa-print me-1"></i> Print
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-2130362-1800926.png" alt="No Bills" class="img-fluid mb-4" style="max-width: 300px; opacity: 0.8;">
+            <h3 class="text-muted">No Bills Found</h3>
+            <p class="text-muted">Your billing history will appear here once generated.</p>
+        </div>
+    }
+</div>
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+    }
+
+    .bg-soft-primary, .bg-primary-subtle { background-color: #eff6ff !important; }
+    .bg-soft-success, .bg-success-subtle { background-color: #f0fdf4 !important; }
+    .bg-soft-danger, .bg-danger-subtle { background-color: #fef2f2 !important; }
+    .bg-soft-warning, .bg-warning-subtle { background-color: #fffbeb !important; }
+
+    .text-gradient {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .transition-all { transition: all 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important; }
+
+    .hover-lift {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .opacity-10 { opacity: 0.1; }
+    .opacity-25 { opacity: 0.25; }
+
+    .bg-danger-subtle { background-color: #fef2f2 !important; }
+    .bg-success-subtle { background-color: #f0fdf4 !important; }
+    .bg-warning-subtle { background-color: #fffbeb !important; }
+
+    .border-bottom-dashed { border-bottom: 1px dashed #e5e7eb; }
+
+    .custom-table th { font-weight: 600; letter-spacing: 0.5px; }
+</style>

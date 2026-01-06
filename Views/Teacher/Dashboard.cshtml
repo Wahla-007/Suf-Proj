@@ -1,0 +1,685 @@
+@model mess_management.Models.TeacherDashboardViewModel
+@{
+    ViewData["Title"] = "Teacher Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --font-main: 'Plus Jakarta Sans', sans-serif;
+        --primary-indigo: #6366f1;
+        --primary-purple: #a855f7;
+        --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        --bg-soft: #f8fafc;
+        --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        --hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        font-family: var(--font-main);
+        background-color: var(--bg-soft);
+        color: #1e293b;
+    }
+
+    /* Hero Section - Professional Glassmorphism */
+    .dashboard-hero {
+        background: var(--primary-gradient);
+        border-radius: 32px;
+        padding: 4rem 3rem;
+        color: white;
+        margin-bottom: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+    }
+
+    .dashboard-hero::after {
+        content: '';
+        position: absolute;
+        top: -20%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+        border-radius: 50%;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content h1 {
+        font-weight: 800;
+        font-size: 2.75rem;
+        letter-spacing: -0.05em;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-content p {
+        font-size: 1.15rem;
+        opacity: 0.9;
+        font-weight: 400;
+        max-width: 600px;
+    }
+
+    /* Global Card Styles */
+    .modern-card {
+        background: white;
+        border-radius: 24px;
+        border: 1px solid rgba(241, 245, 249, 1);
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .modern-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--hover-shadow);
+        border-color: rgba(99, 102, 241, 0.1);
+    }
+
+    /* Stats Section */
+    .stat-container {
+        padding: 1.75rem;
+    }
+
+    .stat-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.25rem;
+    }
+
+    .stat-icon-box {
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+    }
+
+    .stat-value {
+        font-size: 2.25rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        color: #64748b;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    /* Quick Shortcuts - App Icon Style */
+    .shortcut-btn {
+        background: white;
+        border-radius: 24px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        border: 1px solid #f1f5f9;
+        transition: var(--transition);
+    }
+
+    .shortcut-btn:hover {
+        background: #fafafa;
+        border-color: var(--primary-indigo);
+        transform: translateY(-5px);
+        box-shadow: var(--hover-shadow);
+    }
+
+    .shortcut-icon-wrapper {
+        width: 70px;
+        height: 70px;
+        border-radius: 20px;
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin-bottom: 1.25rem;
+        transition: var(--transition);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .shortcut-btn:hover .shortcut-icon-wrapper {
+        background: var(--primary-gradient);
+        color: white !important;
+        transform: scale(1.05) rotate(5deg);
+    }
+
+    .shortcut-title {
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.4rem;
+        font-size: 1.1rem;
+    }
+
+    .shortcut-desc {
+        font-size: 0.825rem;
+        color: #94a3b8;
+        line-height: 1.4;
+    }
+
+    /* Attendance & Menu Section Headers */
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.75rem 2rem;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .section-title {
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    /* Table Styles */
+    .modern-table th {
+        background: #f8fafc;
+        padding: 1.25rem 2rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #64748b;
+        border: none;
+    }
+
+    .modern-table td {
+        padding: 1.25rem 2rem;
+        vertical-align: middle;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.95rem;
+    }
+
+    /* Meal Toggle Design */
+    .meal-row {
+        margin-bottom: 1.25rem;
+    }
+
+    .meal-card-horizontal {
+        background: white;
+        border-radius: 20px;
+        padding: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #f1f5f9;
+        transition: var(--transition);
+        cursor: pointer;
+    }
+
+    .meal-card-horizontal:hover {
+        border-color: var(--primary-indigo);
+        background: #f8faff;
+    }
+
+    .meal-info {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    .meal-icon-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    .toggle-pill {
+        width: 52px;
+        height: 28px;
+        background: #e2e8f0;
+        border-radius: 50px;
+        position: relative;
+        transition: var(--transition);
+    }
+
+    .toggle-pill.active {
+        background: #10b981;
+    }
+
+    .toggle-thumb {
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        transition: var(--transition);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .toggle-pill.active .toggle-thumb {
+        left: 28px;
+    }
+
+    /* Badges */
+    .badge-modern {
+        padding: 0.5rem 1rem;
+        border-radius: 100px;
+        font-weight: 700;
+        font-size: 0.75rem;
+    }
+
+    .vibrant-btn {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.25rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .vibrant-btn:hover {
+        color: white;
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+    }
+</style>
+
+<div class="container-fluid px-4 py-4">
+    
+
+    <!-- Professional Hero -->
+    <div class="dashboard-hero">
+        <div class="row align-items-center">
+            <div class="col-lg-8 hero-content">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <span class="badge bg-white bg-opacity-20 backdrop-blur rounded-pill px-3 py-2 fw-semibold">
+                        <i class="far fa-calendar-alt me-2 text-white"></i>@DateTime.Now.ToString("MMMM dd, yyyy")
+                    </span>
+                </div>
+                <h1>Welcome, @(Model?.Teacher?.FullName ?? "Teacher")!</h1>
+                <p>Track your mess attendance, view monthly bills, and manage your account with our all-in-one professional dashboard.</p>
+            </div>
+            <div class="col-lg-4 d-none d-lg-block text-end">
+                <div class="hero-icon-bg bg-white bg-opacity-10 rounded-pill d-inline-flex p-5 backdrop-blur">
+                    <i class="fas fa-id-card-clip fa-6x text-white opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-4 mb-5">
+        <div class="col-xl-3 col-md-6">
+            <div class="modern-card">
+                <div class="stat-container">
+                    <div class="stat-head">
+                        <div>
+                            <div class="stat-value">@Model?.TotalAttendance</div>
+                            <div class="stat-label">Total Logs</div>
+                        </div>
+                        <div class="stat-icon-box" style="background: #eef2ff; color: #6366f1;">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                    </div>
+                    <div class="progress" style="height: 6px; border-radius: 10px; background: #f1f5f9;">
+                        <div class="progress-bar" style="width: 100%; background: #6366f1;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="modern-card">
+                <div class="stat-container">
+                    <div class="stat-head">
+                        <div>
+                            <div class="stat-value">@Model?.VerifiedRecords</div>
+                            <div class="stat-label">Verified</div>
+                        </div>
+                        <div class="stat-icon-box" style="background: #ecfdf5; color: #10b981;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="progress" style="height: 6px; border-radius: 10px; background: #f1f5f9;">
+                        <div class="progress-bar" style="width: @(Model?.TotalAttendance > 0 ? (Model.VerifiedRecords * 100 / Model.TotalAttendance) : 0)%; background: #10b981;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="modern-card">
+                <div class="stat-container">
+                    <div class="stat-head">
+                        <div>
+                            <div class="stat-value">@Model?.PendingRecords</div>
+                            <div class="stat-label">Pending Approval</div>
+                        </div>
+                        <div class="stat-icon-box" style="background: #fffbeb; color: #f59e0b;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="progress" style="height: 6px; border-radius: 10px; background: #f1f5f9;">
+                        <div class="progress-bar" style="width: @(Model?.TotalAttendance > 0 ? (Model.PendingRecords * 100 / Model.TotalAttendance) : 0)%; background: #f59e0b;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="modern-card" style="border-left: 5px solid #ef4444;">
+                <div class="stat-container">
+                    <div class="stat-head">
+                        <div>
+                            <div class="stat-value text-danger">Rs. @(Model != null ? Model.ActiveCharges.ToString("N0") : "0")</div>
+                            <div class="stat-label">Due Amount</div>
+                        </div>
+                        <div class="stat-icon-box" style="background: #fef2f2; color: #ef4444;">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge-modern bg-danger bg-opacity-10 text-danger">Immediate Action</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Shortcuts Grid -->
+    <div class="mb-5">
+        <h5 class="fw-bold mb-4 d-flex align-items-center gap-2">
+            <i class="fas fa-th-large text-primary"></i> Quick Shortcuts
+        </h5>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <a href="@Url.Action("AttendanceHistory", "Teacher")" class="shortcut-btn">
+                    <div class="shortcut-icon-wrapper" style="color: #6366f1;">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <span class="shortcut-title">Attendance Log</span>
+                    <span class="shortcut-desc">Detailed logs of your presence</span>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="@Url.Action("MyBills", "Teacher")" class="shortcut-btn">
+                    <div class="shortcut-icon-wrapper" style="color: #10b981;">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <span class="shortcut-title">Bill History</span>
+                    <span class="shortcut-desc">Manage and pay your dues</span>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="@Url.Action("ViewMenu", "Teacher")" class="shortcut-btn">
+                    <div class="shortcut-icon-wrapper" style="color: #f59e0b;">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <span class="shortcut-title">Weekly Menu</span>
+                    <span class="shortcut-desc">View planned rates & dishes</span>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="@Url.Action("ChangePassword", "Account")" class="shortcut-btn">
+                    <div class="shortcut-icon-wrapper" style="color: #ef4444;">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <span class="shortcut-title">Security</span>
+                    <span class="shortcut-desc">Update account password</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Recent Attendance List -->
+        <div class="col-lg-7">
+            <div class="modern-card">
+                <div class="section-header">
+                    <h5 class="section-title">
+                        <i class="fas fa-history text-indigo"></i> Recent Attendance
+                    </h5>
+                    <a href="@Url.Action("AttendanceHistory", "Teacher")" class="text-decoration-none fw-bold text-primary">View Full Log</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table modern-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Date & Day</th>
+                                <th>Status</th>
+                                <th class="text-end">Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model?.AttendanceRecords != null && Model.AttendanceRecords.Count > 0)
+                            {
+                                foreach (var record in Model.AttendanceRecords.Take(6))
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="bg-indigo bg-opacity-10 text-indigo rounded-3 p-2 text-center" style="width: 50px;">
+                                                    <span class="d-block small text-uppercase fw-bold opacity-75">@record.Date?.ToString("MMM")</span>
+                                                    <span class="d-block fw-bold h5 mb-0">@record.Date?.Day</span>
+                                                </div>
+                                                <div>
+                                                    <span class="fw-bold text-dark d-block">@record.Date?.ToString("dddd")</span>
+                                                    <span class="text-muted small">@record.Date?.ToString("yyyy")</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if (record.IsVerified == true)
+                                            {
+                                                <span class="badge-modern bg-success bg-opacity-10 text-success">
+                                                    <i class="fas fa-check-circle me-1"></i> Verified
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-modern bg-warning bg-opacity-10 text-warning">
+                                                    <i class="fas fa-hourglass-half me-1"></i> Pending
+                                                </span>
+                                            }
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="@Url.Action("RaiseDispute", "Teacher", new { id = record.Id })" class="vibrant-btn btn-sm text-decoration-none">
+                                                <i class="fas fa-circle-exclamation me-1"></i> Dispute
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else 
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center py-5">
+                                        <div class="opacity-25 mb-3">
+                                            <i class="fas fa-folder-open fa-3x"></i>
+                                        </div>
+                                        <p class="text-muted fw-bold">No attendance records discovered.</p>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Menu -->
+        <div class="col-lg-5">
+            <div class="modern-card">
+                <div class="section-header">
+                    <h5 class="section-title">
+                        <i class="fas fa-hot-tub-person text-warning"></i> Today's Menu
+                    </h5>
+                    <span class="badge-modern bg-light text-muted">@DateTime.Now.DayOfWeek</span>
+                </div>
+                <div class="p-4">
+                    @{
+                        var today = DateTime.Today;
+                        var dayInt = (int)today.DayOfWeek;
+                        var todayPlan = Model?.CurrentPlan?.Days?.FirstOrDefault(d => (d.DayOfWeek == dayInt) || (dayInt == 0 && d.DayOfWeek == 7));
+                        
+                        var todayDateOnly = DateOnly.FromDateTime(today);
+                        var todayAttendance = Model?.AttendanceRecords?.FirstOrDefault(a => a.Date == todayDateOnly);
+                        bool breakfastTaken = todayAttendance?.Breakfast == true;
+                        bool lunchTaken = todayAttendance?.Lunch == true;
+                        bool dinnerTaken = todayAttendance?.Dinner == true;
+                    }
+
+                    @if (todayPlan != null)
+                    {
+                        <!-- Meal Row Component -->
+                        <div class="meal-row">
+                            <div onclick="toggleMeal('Breakfast', this)" class="meal-card-horizontal">
+                                <div class="meal-info">
+                                    <div class="meal-icon-circle @(breakfastTaken ? "bg-success bg-opacity-10 text-success" : "bg-slate-100 text-slate-400")">
+                                        <i class="fas fa-coffee"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">@todayPlan.BreakfastName</h6>
+                                        <span class="text-primary fw-bold small">Rs. @todayPlan.BreakfastPrice.ToString("N0")</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="fw-bold small status-indicator @(breakfastTaken ? "text-success" : "text-muted")">
+                                        @(breakfastTaken ? "TAKEN" : "SKIP")
+                                    </span>
+                                    <div class="toggle-pill @(breakfastTaken ? "active" : "")">
+                                        <div class="toggle-thumb"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="meal-row">
+                            <div onclick="toggleMeal('Lunch', this)" class="meal-card-horizontal">
+                                <div class="meal-info">
+                                    <div class="meal-icon-circle @(lunchTaken ? "bg-success bg-opacity-10 text-success" : "bg-slate-100 text-slate-400")">
+                                        <i class="fas fa-sun"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">@todayPlan.LunchName</h6>
+                                        <span class="text-primary fw-bold small">Rs. @todayPlan.LunchPrice.ToString("N0")</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="fw-bold small status-indicator @(lunchTaken ? "text-success" : "text-muted")">
+                                        @(lunchTaken ? "TAKEN" : "SKIP")
+                                    </span>
+                                    <div class="toggle-pill @(lunchTaken ? "active" : "")">
+                                        <div class="toggle-thumb"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="meal-row">
+                            <div onclick="toggleMeal('Dinner', this)" class="meal-card-horizontal">
+                                <div class="meal-info">
+                                    <div class="meal-icon-circle @(dinnerTaken ? "bg-success bg-opacity-10 text-success" : "bg-slate-100 text-slate-400")">
+                                        <i class="fas fa-moon"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">@todayPlan.DinnerName</h6>
+                                        <span class="text-primary fw-bold small">Rs. @todayPlan.DinnerPrice.ToString("N0")</span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <span class="fw-bold small status-indicator @(dinnerTaken ? "text-success" : "text-muted")">
+                                        @(dinnerTaken ? "TAKEN" : "SKIP")
+                                    </span>
+                                    <div class="toggle-pill @(dinnerTaken ? "active" : "")">
+                                        <div class="toggle-thumb"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-bowl-food text-muted fa-4x mb-3 opacity-25"></i>
+                            <p class="text-muted fw-bold">The kitchen hasn't prepared today's menu yet.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="antiforgery-form" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+
+@section Scripts {
+    <script>
+        function toggleMeal(mealType, element) {
+            const toggle = element.querySelector('.toggle-pill');
+            const indicator = element.querySelector('.status-indicator');
+            const icon = element.querySelector('.meal-icon-circle');
+            const wasActive = toggle.classList.contains('active');
+            
+            // Visual Update
+            if (wasActive) {
+                toggle.classList.remove('active');
+                indicator.textContent = "SKIP";
+                indicator.classList.remove('text-success');
+                indicator.classList.add('text-muted');
+                icon.classList.remove('bg-success', 'bg-opacity-10', 'text-success');
+            } else {
+                toggle.classList.add('active');
+                indicator.textContent = "TAKEN";
+                indicator.classList.remove('text-muted');
+                indicator.classList.add('text-success');
+                icon.classList.add('bg-success', 'bg-opacity-10', 'text-success');
+            }
+
+            const token = document.querySelector('#antiforgery-form input[name="__RequestVerificationToken"]').value;
+            
+            fetch('@Url.Action("ToggleMealAjax", "Teacher")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({ mealType: mealType })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    alert(data.message || 'Error occurred');
+                    location.reload();
+                }
+            })
+            .catch(() => {
+                alert('Connection error');
+                location.reload();
+            });
+        }
+    </script>
+}

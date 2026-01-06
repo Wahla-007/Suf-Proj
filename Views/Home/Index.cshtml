@@ -1,0 +1,335 @@
+﻿@{
+    ViewData["Title"] = "Home - Mess Management";
+}
+
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="glass-hero p-5 text-center animate-fade-in-down">
+                <div class="hero-icon-blob mb-4">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h1 class="display-4 fw-800 text-dark tracking-tight">Mess Management System</h1>
+                <p class="lead text-body max-width-700 mx-auto">
+                    A comprehensive, high-performance platform for managing campus dining operations, 
+                    attendance verification, and transparent financial tracking.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Portal Selection Section -->
+    <div class="row align-items-center mb-5">
+        <div class="col-12 text-center mb-5">
+            <h2 class="section-title">
+                <span class="title-underline">Select Your Portal</span>
+            </h2>
+        </div>
+
+        <!-- Admin Portal -->
+        <div class="col-lg-6 mb-4">
+            <div class="premium-card portal-card animate-slide-left">
+                <div class="card-header-gradient bg-indigo">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="badge bg-white text-indigo mb-2 px-3 py-2">System Admin</span>
+                            <h3 class="h2 mb-0 fw-700">Admin Control Panel</h3>
+                        </div>
+                        <i class="fas fa-shield-halved fa-2x opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-body mb-4">Master control for administrative personnel to manage teachers, menus, and verify dining records.</p>
+                    
+                    <div class="feature-grid-mini mb-4">
+                        <div class="feature-pill"><i class="fas fa-users-gear"></i> Teacher Management</div>
+                        <div class="feature-pill"><i class="fas fa-calendar-days"></i> Menu Planning</div>
+                        <div class="feature-pill"><i class="fas fa-check-double"></i> Attendance Verification</div>
+                        <div class="feature-pill"><i class="fas fa-file-invoice"></i> Bill Generation</div>
+                    </div>
+
+                    <a href="@Url.Action("Index", "Admin")" class="btn btn-premium-indigo w-100 py-3 rounded-pill mt-2">
+                        <span>Access Admin Dashboard</span>
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Portal -->
+        <div class="col-lg-6 mb-4">
+            <div class="premium-card portal-card animate-slide-right">
+                <div class="card-header-gradient bg-emerald">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="badge bg-white text-emerald mb-2 px-3 py-2">Staff Member</span>
+                            <h3 class="h2 mb-0 fw-700">Teacher Portal</h3>
+                        </div>
+                        <i class="fas fa-chalkboard-user fa-2x opacity-50"></i>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-body mb-4">Personalized dashboard for teachers to track their daily meal logs and monitor monthly billing status.</p>
+                    
+                    <div class="feature-grid-mini mb-4">
+                        <div class="feature-pill"><i class="fas fa-chart-line"></i> Meal Analytics</div>
+                        <div class="feature-pill"><i class="fas fa-clock-rotate-left"></i> Attendance History</div>
+                        <div class="feature-pill"><i class="fas fa-receipt"></i> Monthly Billing</div>
+                        <div class="feature-pill"><i class="fas fa-bell"></i> System Alerts</div>
+                    </div>
+
+                    <a href="@Url.Action("Dashboard", "Teacher")" class="btn btn-premium-emerald w-100 py-3 rounded-pill mt-2">
+                        <span>Enter Teacher Portal</span>
+                        <i class="fas fa-sign-in-alt ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats / Features Section -->
+    <div class="row my-5 pt-4">
+        <div class="col-12 text-center mb-5">
+            <h2 class="section-title">System Overview</h2>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="stat-mini-card animate-zoom-in">
+                <div class="icon-circle bg-soft-indigo"><i class="fas fa-users"></i></div>
+                <h4>Centralized</h4>
+                <p>unified user database management</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="stat-mini-card animate-zoom-in" style="animation-delay: 0.1s;">
+                <div class="icon-circle bg-soft-emerald"><i class="fas fa-bolt"></i></div>
+                <h4>Real-time</h4>
+                <p>instant attendance verification</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="stat-mini-card animate-zoom-in" style="animation-delay: 0.2s;">
+                <div class="icon-circle bg-soft-amber"><i class="fas fa-wallet"></i></div>
+                <h4>Automated</h4>
+                <p>smart billing & calculations</p>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="stat-mini-card animate-zoom-in" style="animation-delay: 0.3s;">
+                <div class="icon-circle bg-soft-rose"><i class="fas fa-shield-check"></i></div>
+                <h4>Secure</h4>
+                <p>protected data & logs</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Premium Home Styles */
+    .glass-hero {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 40px;
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+    }
+
+    .hero-icon-blob {
+        width: 70px;
+        height: 70px;
+        background: var(--primary);
+        color: white;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 1.5rem;
+        box-shadow: 0 8px 16px rgba(99, 102, 241, 0.2);
+        transform: none; /* Removed rotation to make it straight */
+        position: relative;
+        z-index: 2;
+    }
+
+    .fw-800 { font-weight: 800; }
+    .fw-700 { font-weight: 700; }
+    .max-width-700 { max-width: 700px; }
+    .tracking-tight { letter-spacing: -0.04em; }
+
+    .section-title {
+        font-weight: 800;
+        font-size: 2.25rem;
+        color: var(--dark);
+        letter-spacing: -0.03em;
+        position: relative;
+    }
+
+    .title-underline::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 5px;
+        background: var(--primary);
+        border-radius: 10px;
+    }
+
+    .premium-card {
+        background: white;
+        border-radius: 30px;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .portal-card:hover {
+        transform: translateY(-12px) scale(1.01);
+        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header-gradient {
+        padding: 2.5rem 2rem;
+        color: white;
+    }
+
+    .bg-indigo { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); }
+    .bg-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+
+    .text-indigo { color: #6366f1; }
+    .text-emerald { color: #10b981; }
+
+    .feature-grid-mini {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .feature-pill {
+        background: #f8fafc;
+        padding: 12px 18px;
+        border-radius: 14px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #334155;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .feature-pill i {
+        color: var(--primary);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .feature-pill:hover {
+        background: white;
+        transform: translateY(-3px) translateX(2px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+        color: var(--primary);
+        border-color: rgba(99, 102, 241, 0.1);
+    }
+    
+    .feature-pill:hover i {
+        transform: scale(1.2);
+    }
+
+    .btn-premium-indigo {
+        background: #6366f1;
+        color: white;
+        font-weight: 700;
+        border: none;
+    }
+
+    .btn-premium-indigo:hover {
+        background: #4f46e5;
+        color: white;
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-premium-emerald {
+        background: #10b981;
+        color: white;
+        font-weight: 700;
+        border: none;
+    }
+
+    .btn-premium-emerald:hover {
+        background: #059669;
+        color: white;
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .stat-mini-card {
+        background: white;
+        padding: 2.5rem 1.5rem;
+        border-radius: 25px;
+        text-align: center;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .stat-mini-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin: 0 auto 1.5rem;
+    }
+
+    .bg-soft-indigo { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
+    .bg-soft-emerald { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+    .bg-soft-amber { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+    .bg-soft-rose { background: rgba(244, 63, 94, 0.1); color: #f43f5e; }
+
+    /* Animations */
+    @@keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-30px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    @@keyframes slideInRight {
+        from { opacity: 0; transform: translateX(30px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    @@keyframes zoomIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .animate-fade-in-down { animation: fadeInDown 0.8s ease-out; }
+    .animate-slide-left { animation: slideInLeft 0.8s ease-out; }
+    .animate-slide-right { animation: slideInRight 0.8s ease-out; }
+    .animate-zoom-in { animation: zoomIn 0.8s ease-out; }
+
+    @@media (max-width: 768px) {
+        .glass-hero { padding: 3rem 1.5rem; }
+        .hero-icon-blob { width: 60px; height: 60px; font-size: 1.75rem; }
+        .display-4 { font-size: 2.25rem; }
+        .feature-grid-mini { grid-template-columns: 1fr; }
+    }
+</style>

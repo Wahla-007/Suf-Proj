@@ -1,0 +1,68 @@
+@model mess_management.Controllers.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="jumbotron mb-4">
+    <h1 class="display-5"><i class="fas fa-shield-alt"></i> Admin Dashboard</h1>
+    <p class="lead">Quick access to admin features: users, weekly plans, menus, attendance and billing.</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary">Users</div>
+            <div class="card-body">
+                <h5 class="card-title">Teachers / Users</h5>
+                <p class="card-text">Manage teachers and admin accounts. Total: <strong>@Model.UserCount</strong></p>
+                <a class="btn btn-primary" asp-controller="AspNetUser" asp-action="Index"><i class="fas fa-users"></i> Manage Users</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info">Weekly Plans</div>
+            <div class="card-body">
+                <h5 class="card-title">Plans</h5>
+                <p class="card-text">Create and edit per-day meal prices. Total: <strong>@Model.WeeklyPlanCount</strong></p>
+                <a class="btn btn-info" asp-controller="WeeklyPlans" asp-action="Index"><i class="fas fa-calendar-week"></i> Weekly Plans</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-warning">Weekly Menus</div>
+            <div class="card-body">
+                <h5 class="card-title">Menus</h5>
+                <p class="card-text">View and create weekly menus. Total: <strong>@Model.WeeklyMenuCount</strong></p>
+                <a class="btn btn-warning" asp-controller="WeeklyMenu" asp-action="Index"><i class="fas fa-utensils"></i> Weekly Menus</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-success">Attendance</div>
+            <div class="card-body">
+                <h5 class="card-title">Attendance</h5>
+                <p class="card-text">Mark and verify attendance. Total: <strong>@Model.AttendanceCount</strong></p>
+                <a class="btn btn-success" asp-controller="TeacherAttendance" asp-action="Index"><i class="fas fa-clipboard-check"></i> Attendance</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-danger">Billing</div>
+            <div class="card-body">
+                <h5 class="card-title">Bills</h5>
+                <p class="card-text">Generate and review monthly bills. Total: <strong>@Model.BillCount</strong></p>
+                <a class="btn btn-danger" asp-controller="Bills" asp-action="Index"><i class="fas fa-file-invoice-dollar"></i> View Bills</a>
+                <a class="btn btn-outline-primary ms-2" asp-controller="Billing" asp-action="Generate"><i class="fas fa-cogs"></i> Generate</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+@model mess_management.Models.MonthlyBill
+
+@{
+    ViewData["Title"] = "Details";
+    ViewData["HideBackButton"] = true;
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-header bg-info text-white py-3 d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i> Bill Details</h4>
+                <span class="badge rounded-pill bg-light text-info px-3">@Model.Status</span>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-4">
+                    <div class="col-md-6 border-end">
+                        <h6 class="text-muted fw-bold text-uppercase small mb-3">Basic Info</h6>
+                        <table class="table table-borderless">
+                            <tr>
+                                <th class="ps-0 text-muted">Teacher</th>
+                                <td>@(Model.Teacher?.FullName ?? Model.Teacher?.Email)</td>
+                            </tr>
+                            <tr>
+                                <th class="ps-0 text-muted">Period</th>
+                                <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Month ?? 1) @Model.Year</td>
+                            </tr>
+                            <tr>
+                                <th class="ps-0 text-muted">Meals</th>
+                                <td>@Model.TotalMeals meals</td>
+                            </tr>
+                            <tr>
+                                <th class="ps-0 text-muted">Generated</th>
+                                <td>@Model.GeneratedOn?.ToString("dd MMM yyyy")</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted fw-bold text-uppercase small mb-3">Financial Summary</h6>
+                        <table class="table table-borderless">
+                            <tr>
+                                <th class="ps-0 text-muted">Food Amount</th>
+                                <td class="text-end">Rs. @Model.FoodAmount?.ToString("N2")</td>
+                            </tr>
+                            <tr>
+                                <th class="ps-0 text-muted">Water Share</th>
+                                <td class="text-end">Rs. @Model.WaterShare?.ToString("N2")</td>
+                            </tr>
+                            <tr>
+                                <th class="ps-0 text-muted">Previous Due</th>
+                                <td class="text-end text-warning">Rs. @Model.PreviousDue?.ToString("N2")</td>
+                            </tr>
+                            <tr class="border-top">
+                                <th class="ps-0 fw-bold">Total Due</th>
+                                <td class="text-end fw-bold text-primary">Rs. @Model.TotalDue?.ToString("N2")</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                @if (Model.Status == "Paid")
+                {
+                    <div class="alert alert-success mt-4 mb-0 border-0 bg-success bg-opacity-10">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong>Payment Received:</strong> Rs. @Model.PaidAmount?.ToString("N2")
+                            </div>
+                            <div class="small">
+                                <strong>Date:</strong> @Model.PaidOn?.ToString("dd MMM yyyy HH:mm")
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.PaymentToken))
+                        {
+                            <div class="mt-2 small text-muted">
+                                <strong>Token:</strong> @Model.PaymentToken
+                            </div>
+                        }
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between align-items-center mt-5 border-top pt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary px-4">
+                        <i class="fas fa-edit me-2"></i> Edit Bill
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                        <i class="fas fa-arrow-left me-2"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

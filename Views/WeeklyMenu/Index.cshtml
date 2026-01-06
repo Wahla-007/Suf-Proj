@@ -1,0 +1,95 @@
+@model IEnumerable<mess_management.Models.WeeklyMenu>
+
+@{
+    ViewData["Title"] = "Weekly Menus";
+    ViewData["HideBackButton"] = true;
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="display-6 fw-bold text-primary"><i class="fas fa-utensils me-3"></i>Weekly Menus</h1>
+            <p class="text-muted lead">Manage your mess menu rates and schedule</p>
+        </div>
+        <div>
+            <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-pill px-4 me-2">
+                <i class="fas fa-plus-circle me-2"></i>Create New Menu
+            </a>
+            <a asp-controller="WeeklyPlans" asp-action="Index" class="btn btn-outline-secondary btn-lg shadow-sm rounded-pill px-4">
+                <i class="fas fa-calendar-alt me-2"></i>View Plans
+            </a>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        @foreach (var item in Model) {
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                    <div class="card-header bg-white border-0 pt-4 pb-0">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="badge bg-light text-primary p-2 rounded-circle mb-3">
+                                <i class="fas fa-calendar-week fa-2x"></i>
+                            </div>
+                            <small class="text-muted">ID: @item.Id</small>
+                        </div>
+                        <h5 class="card-title fw-bold mb-1">
+                            @(item.WeekStartDate.HasValue ? item.WeekStartDate.Value.ToString("MMM dd, yyyy") : "")
+                        </h5>
+                        <small class="text-secondary">Week Start Date</small>
+                    </div>
+                    
+                    <div class="card-body">
+                        <hr class="my-3 opacity-10">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted"><i class="fas fa-coffee me-2 text-warning"></i>Breakfast</span>
+                            <span class="fw-bold">@item.BreakfastRate</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted"><i class="fas fa-hamburger me-2 text-danger"></i>Lunch</span>
+                            <span class="fw-bold">@item.LunchRate</span>
+                        </div>
+                         <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted"><i class="fas fa-utensils me-2 text-success"></i>Dinner</span>
+                            <span class="fw-bold">@item.DinnerRate</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer bg-white border-0 pb-4 pt-0">
+                        <div class="d-grid gap-2">
+                            <div class="btn-group shadow-sm rounded" role="group">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary" data-bs-toggle="tooltip" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning" data-bs-toggle="tooltip" title="Edit Menu">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="Delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <small class="text-muted fst-italic">Created by @(item.CreatedBy?.FullName ?? item.CreatedById)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-secondary px-4">
+        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+    </a>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+</style>

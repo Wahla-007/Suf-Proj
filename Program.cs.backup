@@ -1,0 +1,349 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using mess_management.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using mess_management.Services;
+
+namespace mess_management
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("🚀 Application starting...");
+            Console.Out.Flush();
+            
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+            Console.WriteLine("📦 Adding DbContext...");
+            Console.Out.Flush();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=mess;Trusted_Connection=True;TrustServerCertificate=True;"));
+
+            builder.Services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+
+            // Configure Antiforgery to look for the header
+            builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
+
+            // Hybrid Authentication (Cookies for UI, JWT for API)
+            Console.WriteLine("🔐 Configuring authentication...");
+            Console.Out.Flush();
+            var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+            builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "CookieAuth";
+                options.DefaultSignInScheme = "CookieAuth";
+                options.DefaultChallengeScheme = "CookieAuth";
+            })
+            .AddCookie("CookieAuth", options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
+                options.ExpireTimeSpan = TimeSpan.FromHours(8);
+            })
+            .AddJwtBearer(Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings?.Issuer,
+                    ValidAudience = jwtSettings?.Audience,
+                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                        System.Text.Encoding.UTF8.GetBytes(jwtSettings?.SecretKey ?? ""))
+                };
+            });
+
+            var app = builder.Build();
+
+            // Apply migrations and seed an admin account if none exists
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    Console.WriteLine("💾 Connecting to database...");
+                    Console.Out.Flush();
+                    var db = services.GetRequiredService<AppDbContext>();
+                    
+                    Console.WriteLine("📋 Skipping database initialization (will handle later)...");
+                    Console.Out.Flush();
+                    
+                    // Skip database operations for now to get the app running
+                    Console.WriteLine("✅ Database initialization skipped!");
+
+                    // SKIP ALL SEEDING FOR NOW TO GET APP RUNNING
+                    Console.WriteLine("⏭️  Skipping all database seeding...");
+                    // SKIP ALL SEEDING FOR NOW TO GET APP RUNNING
+                    Console.WriteLine("⏭️  Skipping all database seeding...");
+                    Console.Out.Flush();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error initializing app: " + ex.Message);
+                }
+            }
+                    {
+                        var adminId = Guid.NewGuid().ToString();
+                        var tempPassword = "Admin@123";
+                        var admin = new mess_management.Models.AspNetUser
+                        {
+                            Id = adminId,
+                            Email = "admin@local",
+                            FullName = "Administrator",
+                            JoinedDate = DateTime.Now,
+                            IsAdmin = true,
+                            IsPasswordChanged = false,
+                            PasswordHash = BCrypt.Net.BCrypt.HashPassword(tempPassword)
+                        };
+                        db.Add(admin);
+                        db.SaveChanges();
+                        Console.WriteLine("==== Admin seed created ====\nEmail: admin@local\nTemporary password: " + tempPassword + "\nPlease change this password on first login.\n===========================");
+                    }
+
+                    // Seed example@mail.com for the user
+                    if (!db.AspNetUsers.Any(u => u.Email == "example@mail.com"))
+                    {
+                        var user = new mess_management.Models.AspNetUser
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Email = "example@mail.com",
+                            FullName = "Example Administrator",
+                            JoinedDate = DateTime.Now,
+                            IsAdmin = true,
+                            IsPasswordChanged = false,
+                            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123")
+                        };
+                        db.Add(user);
+                        db.SaveChanges();
+                    }
+
+                    // seed default users (user1..user6) if not present and collect their temp passwords to display
+                    var seededUsers = new List<(string Email, string Password)>();
+                    for (int i = 1; i <= 6; i++)
+                    {
+                        var email = $"user{i}@local";
+                        if (!db.AspNetUsers.Any(u => u.Email == email))
+                        {
+                            var tempPassword = GeneratePassword();
+                            var user = new mess_management.Models.AspNetUser
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                Email = email,
+                                FullName = $"Teacher {i}",
+                                JoinedDate = DateTime.Now,
+                                IsAdmin = false,
+                                IsPasswordChanged = false,
+                                PasswordHash = BCrypt.Net.BCrypt.HashPassword(tempPassword)
+                            };
+                            db.Add(user);
+                            seededUsers.Add((email, tempPassword));
+                        }
+                    }
+
+                    // seed WaterFee setting if missing
+                    if (!db.Settings.Any(s => s.Key == "WaterFee"))
+                    {
+                        db.Settings.Add(new Setting { Key = "WaterFee", Value = "800" });
+                    }
+
+                    // seed a sample weekly plan if none exists
+                    if (!db.WeeklyPlans.Any())
+                    {
+                        var monday = DateTime.Today;
+                        while (monday.DayOfWeek != DayOfWeek.Monday) monday = monday.AddDays(-1);
+                        var adminUser = db.AspNetUsers.FirstOrDefault(u => u.IsAdmin == true);
+                        var plan = new WeeklyPlan
+                        {
+                            WeekStart = new DateTime(monday.Year, monday.Month, monday.Day),
+                            CreatedAt = DateTime.Now,
+                            CreatedById = adminUser?.Id
+                        }; 
+                        plan.Days = new List<WeeklyPlanDay>();
+                        for (int d = 0; d < 7; d++)
+                        {
+                            plan.Days.Add(new WeeklyPlanDay
+                            {
+                                DayOfWeek = d,
+                                BreakfastPrice = 20.00m,
+                                LunchPrice = 50.00m,
+                                DinnerPrice = 30.00m
+                            });
+                        }
+                        db.Add(plan);
+                        Console.WriteLine($"Sample weekly plan created for week starting {plan.WeekStart:d}");
+                    }
+
+                    // seed some sample attendance for the first teacher if they have no records
+                    var firstTeacher = db.AspNetUsers.FirstOrDefault(u => u.IsAdmin != true);
+                    if (firstTeacher != null && !db.TeacherAttendances.Any(a => a.TeacherId == firstTeacher.Id))
+                    {
+                        var today = DateOnly.FromDateTime(DateTime.Today);
+                        for (int i = 0; i < 7; i++)
+                        {
+                            var date = today.AddDays(-i);
+                            db.TeacherAttendances.Add(new TeacherAttendance
+                            {
+                                TeacherId = firstTeacher.Id,
+                                Date = date,
+                                Breakfast = i % 2 == 0,
+                                Lunch = true,
+                                Dinner = i % 3 != 0,
+                                MarkedBy = "System",
+                                IsVerified = i > 2, // some verified, some pending
+                                DisputeStatus = "None"
+                            });
+                        }
+                        Console.WriteLine($"Seeded 7 sample attendance records for {firstTeacher.FullName}");
+                    }
+
+                    db.SaveChanges();
+
+                    if (seededUsers.Any())
+                    {
+                        Console.WriteLine("==== Seeded users and temporary passwords ====");
+                        foreach (var u in seededUsers)
+                        {
+                            Console.WriteLine($"{u.Email}  :  {u.Password}");
+                        }
+                        Console.WriteLine("Please ensure each user changes their password on first login.");
+                    }
+
+                    // Standardize all teacher passwords for development
+                    var teachers = db.AspNetUsers.Where(u => u.IsAdmin != true).ToList();
+                    foreach (var t in teachers)
+                    {
+                        t.PasswordHash = BCrypt.Net.BCrypt.HashPassword("Teacher@123");
+                        t.IsPasswordChanged = true;
+                    }
+                    db.UpdateRange(teachers);
+                    db.SaveChanges();
+
+                    Console.WriteLine("==== TEACHER CREDENTIALS ====");
+                    foreach (var t in teachers)
+                    {
+                        Console.WriteLine($"Email: {t.Email,-20} | Password: Teacher@123");
+                    }
+                    Console.WriteLine("=============================");
+
+                    // confirm water fee
+                    var wf = db.Settings.FirstOrDefault(s => s.Key == "WaterFee");
+                    if (wf != null) Console.WriteLine($"Water fee set to: {wf.Value}");
+
+                    // Seed sample monthly bills for EVERY teacher if they have none
+                    var allTeachers = db.AspNetUsers.Where(u => u.IsAdmin != true).ToList();
+                    foreach (var teacher in allTeachers)
+                    {
+                        if (!db.MonthlyBills.Any(b => b.TeacherId == teacher.Id))
+                        {
+                            var today = DateTime.Today;
+                            for (int m = 1; m <= 3; m++)
+                            {
+                                var billDate = today.AddMonths(-m);
+                                var meals = 40 + (m * 5);
+                                var foodCharge = meals * 50;
+                                var waterChargeVal = db.Settings.FirstOrDefault(s => s.Key == "WaterFee")?.Value ?? "800";
+                                decimal.TryParse(waterChargeVal, out decimal waterCharge);
+                                var prevDue = (m == 3) ? 0 : 500;
+                                var total = foodCharge + waterCharge + prevDue;
+
+                                db.MonthlyBills.Add(new MonthlyBill
+                                {
+                                    TeacherId = teacher.Id,
+                                    Year = billDate.Year,
+                                    Month = billDate.Month,
+                                    TotalMeals = meals,
+                                    FoodAmount = foodCharge,
+                                    WaterShare = waterCharge,
+                                    PreviousDue = prevDue,
+                                    TotalDue = total,
+                                    PaidAmount = (m == 1) ? 0 : total,
+                                    Status = (m == 1) ? "Pending" : "Paid",
+                                    GeneratedOn = billDate.AddDays(5),
+                                    PaidOn = (m == 1) ? null : billDate.AddDays(10),
+                                    PaymentToken = (m == 1) ? null : "TXN" + Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()
+                                });
+                            }
+                            Console.WriteLine($"Generated 3 sample bills for: {teacher.FullName} ({teacher.Email})");
+                        }
+                    }
+                    db.SaveChanges();
+
+                    // FIX: Ensure all water charges are 800
+                    var waterSetting = db.Settings.FirstOrDefault(s => s.Key == "WaterFee");
+                    if (waterSetting == null)
+                    {
+                         waterSetting = new Setting { Key = "WaterFee", Value = "800" };
+                         db.Settings.Add(waterSetting);
+                    }
+                    else if (waterSetting.Value != "800")
+                    {
+                        waterSetting.Value = "800";
+                    }
+                    db.SaveChanges();
+
+                    if (decimal.TryParse("800", System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal currentWaterFee))
+                    {
+                        var incorrectBills = db.MonthlyBills.Where(b => b.WaterShare != currentWaterFee).ToList();
+                        if (incorrectBills.Any())
+                        {
+                            foreach (var bill in incorrectBills)
+                            {
+                                bill.WaterShare = currentWaterFee;
+                                bill.TotalDue = (bill.FoodAmount ?? 0) + (bill.WaterShare ?? 0) + (bill.PreviousDue ?? 0);
+                                if (bill.Status == "Paid")
+                                {
+                                     // If it was already paid, we might need to adjust paid amount or leave it. 
+                                     // For now, assuming "Standardize charges" implies updating the expected amount.
+                                     // If PaidAmount == old TotalDue, maybe we should update PaidAmount too? 
+                                     // Let's just update the Demand (TotalDue) as per request.
+                                     // User request: "is page me sab k water charges 800 he rakho" -> Keep water charges 800 in this page.
+                                }
+                            }
+                            db.SaveChanges();
+                            Console.WriteLine($"==== Fixed {incorrectBills.Count} bills with incorrect water charges (Set to {currentWaterFee}) ====");
+                        }
+                    }
+                    
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error while applying migrations and seeding admin: " + ex.Message);
+                }
+            }
+
+            // Middleware pipeline
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Run();
+        }
+    }
+}

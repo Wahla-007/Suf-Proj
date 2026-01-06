@@ -1,0 +1,136 @@
+@model mess_management.Models.WeeklyMenu
+
+@{
+    ViewData["Title"] = "Create Menu";
+    ViewData["HideBackButton"] = true;
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-3">
+                <div class="card-header bg-primary text-white p-4 rounded-top-3">
+                    <h3 class="mb-0 fw-bold"><i class="fas fa-plus-circle me-3"></i>Create New Menu</h3>
+                    <p class="mb-0 text-white-50">Set up rates for a new week</p>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="row g-4">
+                            <!-- Left Column: Dates & Plan -->
+                            <div class="col-md-6 border-end-md">
+                                <h5 class="text-secondary border-bottom pb-2 mb-3">Schedule</h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="WeekStartDate" class="form-label fw-bold small text-uppercase text-muted">Week Start Date</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                        <input asp-for="WeekStartDate" class="form-control" type="date" />
+                                    </div>
+                                    <span asp-validation-for="WeekStartDate" class="text-danger small"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="planSelect" class="form-label fw-bold small text-uppercase text-muted">Apply Weekly Plan <span class="badge bg-info text-dark rounded-pill">Optional</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-magic"></i></span>
+                                        <select id="planSelect" class="form-select" asp-items="ViewBag.WeeklyPlans">
+                                            <option value="">-- Select plan to auto-fill rates --</option>
+                                        </select>
+                                    </div>
+                                    <small class="form-text text-muted">Selecting a plan will automatically fill the rates below.</small>
+                                </div>
+
+                                 <div class="mb-3">
+                                    <label asp-for="CreatedById" class="form-label fw-bold small text-uppercase text-muted">Created By</label>
+                                    <select asp-for="CreatedById" class ="form-select" asp-items="ViewBag.CreatedById"></select>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Column: Rates -->
+                            <div class="col-md-6">
+                                <h5 class="text-secondary border-bottom pb-2 mb-3">Rates</h5>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="BreakfastRate" class="form-label fw-bold small text-uppercase text-muted">Breakfast Rate</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rs.</span>
+                                        <input asp-for="BreakfastRate" class="form-control" id="BreakfastRate" placeholder="0.00" />
+                                        <span class="input-group-text"><i class="fas fa-coffee text-warning"></i></span>
+                                    </div>
+                                    <span asp-validation-for="BreakfastRate" class="text-danger small"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="LunchRate" class="form-label fw-bold small text-uppercase text-muted">Lunch Rate</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rs.</span>
+                                        <input asp-for="LunchRate" class="form-control" id="LunchRate" placeholder="0.00" />
+                                        <span class="input-group-text"><i class="fas fa-hamburger text-danger"></i></span>
+                                    </div>
+                                    <span asp-validation-for="LunchRate" class="text-danger small"></span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label asp-for="DinnerRate" class="form-label fw-bold small text-uppercase text-muted">Dinner Rate</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rs.</span>
+                                        <input asp-for="DinnerRate" class="form-control" id="DinnerRate" placeholder="0.00" />
+                                        <span class="input-group-text"><i class="fas fa-utensils text-success"></i></span>
+                                    </div>
+                                    <span asp-validation-for="DinnerRate" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+                        
+                        <div class="d-flex justify-content-end gap-2">
+                             <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancel</a>
+                            <button type="submit" class="btn btn-primary px-5 shadow-sm fw-bold">
+                                Create Menu <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .border-end-md {
+        border-right: 1px solid #dee2e6;
+    }
+    @@media (max-width: 768px) {
+        .border-end-md {
+            border-right: none;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+    }
+</style>
+
+<script>
+    (function(){
+        var plans = @Html.Raw(ViewBag.PlansJson ?? "[]");
+        var select = document.getElementById('planSelect');
+        select.addEventListener('change', function(){
+            var id = parseInt(this.value || '0');
+            if (!id) return;
+            var plan = plans.find(p => p.Id === id);
+            if (!plan) return;
+            // for simplicity take DayOfWeek 0's breakfast/lunch/dinner as defaults
+            var day0 = plan.Days.find(d => d.DayOfWeek === (new Date(plan.WeekStart)).getDay());
+            if (!day0 && plan.Days.length>0) day0 = plan.Days[0];
+            if (day0) {
+                document.getElementById('BreakfastRate').value = day0.BreakfastPrice;
+                document.getElementById('LunchRate').value = day0.LunchPrice;
+                document.getElementById('DinnerRate').value = day0.DinnerPrice;
+            }
+        });
+    })();
+</script>
+
