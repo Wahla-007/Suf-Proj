@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build outputs
+bin/
+obj/
+
+# IDE
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Documentation
+*.md
+*.txt
+!QUICK_START.md
+
+# SQL files (not needed for SQLite)
+*.sql
+
+# Test projects
+*.Tests/
+
+# Logs
+*.log
+msbuild.log
+
+# Local databases
+*.mdf
+*.ldf
+*.db
+
+# Helper projects
+bcryptgen/
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore

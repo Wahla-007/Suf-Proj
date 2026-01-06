@@ -820,3 +820,15 @@ C:\Users\HP\OneDrive\Desktop\mess_management\mess_management\obj\Release\net8.0\
 C:\Users\HP\OneDrive\Desktop\mess_management\mess_management\obj\Release\net8.0\mess_management.pdb
 C:\Users\HP\OneDrive\Desktop\mess_management\mess_management\obj\Release\net8.0\mess_management.genruntimeconfig.cache
 C:\Users\HP\OneDrive\Desktop\mess_management\mess_management\obj\Release\net8.0\ref\mess_management.dll
+D:\mess_management\obj\Release\net8.0\mess_management.csproj.AssemblyReference.cache
+D:\mess_management\obj\Release\net8.0\rpswa.dswa.cache.json
+D:\mess_management\obj\Release\net8.0\mess_management.GeneratedMSBuildEditorConfig.editorconfig
+D:\mess_management\obj\Release\net8.0\mess_management.csproj.CoreCompileInputs.cache
+D:\mess_management\obj\Release\net8.0\mess_management.MvcApplicationPartsAssemblyInfo.cs
+D:\mess_management\obj\Release\net8.0\mess_management.MvcApplicationPartsAssemblyInfo.cache
+D:\mess_management\obj\Release\net8.0\mess_management.RazorAssemblyInfo.cache
+D:\mess_management\obj\Release\net8.0\mess_management.RazorAssemblyInfo.cs
+D:\mess_management\obj\Release\net8.0\mess_management.sourcelink.json
+D:\mess_management\obj\Release\net8.0\mess_management.dll
+D:\mess_management\obj\Release\net8.0\refint\mess_management.dll
+D:\mess_management\obj\Release\net8.0\mess_management.pdb

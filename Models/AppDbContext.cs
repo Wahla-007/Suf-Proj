@@ -32,9 +32,7 @@ public partial class AppDbContext : DbContext
     public virtual DbSet<Setting> Settings { get; set; }
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=SQL8011.site4now.net,1433;Initial Catalog=db_ac35af_messdatabase;User Id=db_ac35af_messdatabase_admin;Password=1234567890abc@;");
+    // OnConfiguring is now handled in Program.cs with SQLite
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -72,8 +70,8 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.FoodAmount).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.GeneratedOn)
-                .HasDefaultValueSql("GETDATE()")
-                .HasColumnType("datetime");
+                .HasDefaultValueSql("datetime('now')")
+                .HasColumnType("TEXT");
             entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.PaidOn).HasColumnType("datetime");
             entity.Property(e => e.PaymentToken).HasMaxLength(256);
@@ -121,8 +119,8 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.LunchRate).HasPrecision(18, 2);
             entity.Property(e => e.DinnerRate).HasPrecision(18, 2);
             entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("GETDATE()")
-                .HasColumnType("datetime");
+                .HasDefaultValueSql("datetime('now')")
+                .HasColumnType("TEXT");
             entity.Property(e => e.CreatedById).HasMaxLength(450);
 
             entity.HasOne(d => d.CreatedBy).WithMany(p => p.WeeklyMenus)
@@ -134,7 +132,7 @@ public partial class AppDbContext : DbContext
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.WeekStart).HasColumnType("date");
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
+            entity.Property(e => e.CreatedAt).HasColumnType("TEXT").HasDefaultValueSql("datetime('now')");
             entity.HasMany(e => e.Days).WithOne(d => d.WeeklyPlan).HasForeignKey(d => d.WeeklyPlanId).OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -157,7 +155,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.PreviousDue).HasPrecision(18, 2);
             entity.Property(e => e.TotalDue).HasPrecision(18, 2);
             entity.Property(e => e.PaidAmount).HasPrecision(18, 2);
-            entity.Property(e => e.GeneratedOn).HasColumnType("datetime").HasDefaultValueSql("GETDATE()");
+            entity.Property(e => e.GeneratedOn).HasColumnType("TEXT").HasDefaultValueSql("datetime('now')");
             entity.Property(e => e.PaidOn).HasColumnType("datetime");
             entity.HasMany(e => e.Lines).WithOne(l => l.Bill).HasForeignKey(l => l.BillId).OnDelete(DeleteBehavior.Cascade);
             entity.HasMany(e => e.Payments).WithOne(p => p.Bill).HasForeignKey(p => p.BillId).OnDelete(DeleteBehavior.Cascade);

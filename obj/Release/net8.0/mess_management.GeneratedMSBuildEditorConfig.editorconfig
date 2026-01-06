@@ -17,197 +17,197 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = mess_management
 build_property.RootNamespace = mess_management
-build_property.ProjectDir = C:\Users\HP\OneDrive\Desktop\mess_management\mess_management\
+build_property.ProjectDir = D:\mess_management\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = true
-build_property.MSBuildProjectDirectory = C:\Users\HP\OneDrive\Desktop\mess_management\mess_management
+build_property.MSBuildProjectDirectory = D:\mess_management
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Account/ChangePassword.cshtml]
+[D:/mess_management/Views/Account/ChangePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Account/Login.cshtml]
+[D:/mess_management/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Admin/Index.cshtml]
+[D:/mess_management/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/AspNetUser/Create.cshtml]
+[D:/mess_management/Views/AspNetUser/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlclxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/AspNetUser/Delete.cshtml]
+[D:/mess_management/Views/AspNetUser/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlclxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/AspNetUser/Details.cshtml]
+[D:/mess_management/Views/AspNetUser/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlclxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/AspNetUser/Edit.cshtml]
+[D:/mess_management/Views/AspNetUser/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlclxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/AspNetUser/Index.cshtml]
+[D:/mess_management/Views/AspNetUser/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXNwTmV0VXNlclxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Billing/Generate.cshtml]
+[D:/mess_management/Views/Billing/Generate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbGluZ1xHZW5lcmF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Bills/Details.cshtml]
+[D:/mess_management/Views/Bills/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Bills/Index.cshtml]
+[D:/mess_management/Views/Bills/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Home/Index.cshtml]
+[D:/mess_management/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Home/Privacy.cshtml]
+[D:/mess_management/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/MonthlyBill/Create.cshtml]
+[D:/mess_management/Views/MonthlyBill/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9udGhseUJpbGxcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/MonthlyBill/Delete.cshtml]
+[D:/mess_management/Views/MonthlyBill/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9udGhseUJpbGxcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/MonthlyBill/Details.cshtml]
+[D:/mess_management/Views/MonthlyBill/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9udGhseUJpbGxcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/MonthlyBill/Edit.cshtml]
+[D:/mess_management/Views/MonthlyBill/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9udGhseUJpbGxcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/MonthlyBill/Index.cshtml]
+[D:/mess_management/Views/MonthlyBill/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW9udGhseUJpbGxcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Shared/Error.cshtml]
+[D:/mess_management/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/mess_management/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/TeacherAttendance/Create.cshtml]
+[D:/mess_management/Views/TeacherAttendance/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlckF0dGVuZGFuY2VcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/TeacherAttendance/Delete.cshtml]
+[D:/mess_management/Views/TeacherAttendance/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlckF0dGVuZGFuY2VcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/TeacherAttendance/Details.cshtml]
+[D:/mess_management/Views/TeacherAttendance/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlckF0dGVuZGFuY2VcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/TeacherAttendance/Disputes.cshtml]
+[D:/mess_management/Views/TeacherAttendance/Disputes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlckF0dGVuZGFuY2VcRGlzcHV0ZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/TeacherAttendance/Edit.cshtml]
+[D:/mess_management/Views/TeacherAttendance/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlckF0dGVuZGFuY2VcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/TeacherAttendance/Index.cshtml]
+[D:/mess_management/Views/TeacherAttendance/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlckF0dGVuZGFuY2VcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Teacher/AttendanceHistory.cshtml]
+[D:/mess_management/Views/Teacher/AttendanceHistory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxBdHRlbmRhbmNlSGlzdG9yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Teacher/Challan.cshtml]
+[D:/mess_management/Views/Teacher/Challan.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxDaGFsbGFuLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Teacher/Dashboard.cshtml]
+[D:/mess_management/Views/Teacher/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxEYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Teacher/MissingTeacher.cshtml]
+[D:/mess_management/Views/Teacher/MissingTeacher.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxNaXNzaW5nVGVhY2hlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Teacher/MyBills.cshtml]
+[D:/mess_management/Views/Teacher/MyBills.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxNeUJpbGxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Teacher/RaiseDispute.cshtml]
+[D:/mess_management/Views/Teacher/RaiseDispute.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxSYWlzZURpc3B1dGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Teacher/ViewMenu.cshtml]
+[D:/mess_management/Views/Teacher/ViewMenu.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxWaWV3TWVudS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyMenu/Create.cshtml]
+[D:/mess_management/Views/WeeklyMenu/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5TWVudVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyMenu/Delete.cshtml]
+[D:/mess_management/Views/WeeklyMenu/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5TWVudVxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyMenu/Details.cshtml]
+[D:/mess_management/Views/WeeklyMenu/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5TWVudVxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyMenu/Edit.cshtml]
+[D:/mess_management/Views/WeeklyMenu/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5TWVudVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyMenu/Index.cshtml]
+[D:/mess_management/Views/WeeklyMenu/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5TWVudVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyPlans/Create.cshtml]
+[D:/mess_management/Views/WeeklyPlans/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5UGxhbnNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyPlans/Delete.cshtml]
+[D:/mess_management/Views/WeeklyPlans/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5UGxhbnNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyPlans/Details.cshtml]
+[D:/mess_management/Views/WeeklyPlans/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5UGxhbnNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyPlans/Edit.cshtml]
+[D:/mess_management/Views/WeeklyPlans/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5UGxhbnNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/WeeklyPlans/Index.cshtml]
+[D:/mess_management/Views/WeeklyPlans/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2Vla2x5UGxhbnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/_ViewImports.cshtml]
+[D:/mess_management/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/_ViewStart.cshtml]
+[D:/mess_management/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/HP/OneDrive/Desktop/mess_management/mess_management/Views/Shared/_Layout.cshtml]
+[D:/mess_management/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-d5qm3v4ob6
