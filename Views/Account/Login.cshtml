@@ -338,6 +338,78 @@
         </div>
     </div>
 
+    <!-- Credit Footer -->
+    <div class="credit-footer">
+        <div class="credit-content">
+            <i class="fas fa-code"></i>
+            <span>Made by <strong>Hamna Nasir</strong></span>
+            <span class="credit-id">2023-CS-714</span>
+        </div>
+    </div>
+
+    <style>
+        .credit-footer {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+        }
+
+        .credit-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .credit-content:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .credit-content i {
+            color: #a855f7;
+            font-size: 1rem;
+        }
+
+        .credit-content strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .credit-id {
+            background: rgba(168, 85, 247, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #e9d5ff;
+        }
+
+        @@media (max-width: 768px) {
+            .credit-footer {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+            }
+            .credit-content {
+                justify-content: center;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+
     <!-- Core Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

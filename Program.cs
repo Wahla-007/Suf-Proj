@@ -127,7 +127,7 @@ namespace mess_management
         }
 
         /// <summary>
-        /// Seeds the database with initial Pakistani users and settings
+        /// Seeds the database with Pakistani users, dishes, and sample data
         /// </summary>
         private static void SeedDatabase(AppDbContext dbContext)
         {
@@ -140,66 +140,116 @@ namespace mess_management
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = "admin@mess.pk",
-                FullName = "Admin User",
+                FullName = "Muhammad Arslan (Admin)",
                 PasswordHash = adminPasswordHash,
                 IsAdmin = true,
                 IsPasswordChanged = true,
-                JoinedDate = DateTime.UtcNow
+                JoinedDate = DateTime.UtcNow.AddMonths(-6)
             };
             dbContext.AspNetUsers.Add(admin);
 
-            // Seed Teachers with Pakistani Names
+            // Seed Teachers with Pakistani Names (as requested)
             var teachers = new List<AspNetUser>
             {
                 new AspNetUser
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Email = "hamna@mess.pk",
-                    FullName = "Hamna Ahmed",
+                    Email = "hamna.nasir@mess.pk",
+                    FullName = "Hamna Nasir",
                     PasswordHash = passwordHash,
                     IsAdmin = false,
-                    IsPasswordChanged = false,
-                    JoinedDate = DateTime.UtcNow
+                    IsPasswordChanged = true,
+                    JoinedDate = DateTime.UtcNow.AddMonths(-5)
                 },
                 new AspNetUser
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Email = "hanan@mess.pk",
-                    FullName = "Hanan Khan",
+                    Email = "sufwan.masood@mess.pk",
+                    FullName = "Sufwan Masood",
                     PasswordHash = passwordHash,
                     IsAdmin = false,
-                    IsPasswordChanged = false,
-                    JoinedDate = DateTime.UtcNow
+                    IsPasswordChanged = true,
+                    JoinedDate = DateTime.UtcNow.AddMonths(-4)
                 },
                 new AspNetUser
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Email = "tayyab@mess.pk",
-                    FullName = "Tayyab Ali",
+                    Email = "tayyab.nasir@mess.pk",
+                    FullName = "Tayyab Nasir",
                     PasswordHash = passwordHash,
                     IsAdmin = false,
                     IsPasswordChanged = false,
-                    JoinedDate = DateTime.UtcNow
+                    JoinedDate = DateTime.UtcNow.AddMonths(-3)
                 },
                 new AspNetUser
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Email = "danish@mess.pk",
-                    FullName = "Danish Malik",
+                    Email = "abdul.hanan@mess.pk",
+                    FullName = "Abdul Hanan",
                     PasswordHash = passwordHash,
                     IsAdmin = false,
-                    IsPasswordChanged = false,
-                    JoinedDate = DateTime.UtcNow
+                    IsPasswordChanged = true,
+                    JoinedDate = DateTime.UtcNow.AddMonths(-5)
                 },
                 new AspNetUser
                 {
                     Id = Guid.NewGuid().ToString(),
-                    Email = "sufwan@mess.pk",
-                    FullName = "Sufwan Wahla",
+                    Email = "fatima.khan@mess.pk",
+                    FullName = "Fatima Khan",
                     PasswordHash = passwordHash,
                     IsAdmin = false,
                     IsPasswordChanged = false,
-                    JoinedDate = DateTime.UtcNow
+                    JoinedDate = DateTime.UtcNow.AddMonths(-2)
+                },
+                new AspNetUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = "ali.raza@mess.pk",
+                    FullName = "Ali Raza",
+                    PasswordHash = passwordHash,
+                    IsAdmin = false,
+                    IsPasswordChanged = true,
+                    JoinedDate = DateTime.UtcNow.AddMonths(-4)
+                },
+                new AspNetUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = "ayesha.malik@mess.pk",
+                    FullName = "Ayesha Malik",
+                    PasswordHash = passwordHash,
+                    IsAdmin = false,
+                    IsPasswordChanged = true,
+                    JoinedDate = DateTime.UtcNow.AddMonths(-3)
+                },
+                new AspNetUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = "usman.ahmed@mess.pk",
+                    FullName = "Usman Ahmed",
+                    PasswordHash = passwordHash,
+                    IsAdmin = false,
+                    IsPasswordChanged = false,
+                    JoinedDate = DateTime.UtcNow.AddMonths(-1)
+                },
+                new AspNetUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = "zainab.ali@mess.pk",
+                    FullName = "Zainab Ali",
+                    PasswordHash = passwordHash,
+                    IsAdmin = false,
+                    IsPasswordChanged = true,
+                    JoinedDate = DateTime.UtcNow.AddMonths(-2)
+                },
+                new AspNetUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = "bilal.hassan@mess.pk",
+                    FullName = "Bilal Hassan",
+                    PasswordHash = passwordHash,
+                    IsAdmin = false,
+                    IsPasswordChanged = true,
+                    JoinedDate = DateTime.UtcNow.AddMonths(-5)
                 }
             };
             dbContext.AspNetUsers.AddRange(teachers);
@@ -208,32 +258,126 @@ namespace mess_management
             var settings = new List<Setting>
             {
                 new Setting { Key = "WaterFee", Value = "500" },
-                new Setting { Key = "DefaultBreakfastRate", Value = "100" },
+                new Setting { Key = "DefaultBreakfastRate", Value = "120" },
                 new Setting { Key = "DefaultLunchRate", Value = "200" },
-                new Setting { Key = "DefaultDinnerRate", Value = "150" }
+                new Setting { Key = "DefaultDinnerRate", Value = "180" },
+                new Setting { Key = "MessName", Value = "COMSATS Mess" },
+                new Setting { Key = "Currency", Value = "PKR" }
             };
             dbContext.Settings.AddRange(settings);
 
-            // Seed a Weekly Plan
-            var weeklyPlan = new WeeklyPlan
-            {
-                WeekStart = DateTime.UtcNow.Date.AddDays(-(int)DateTime.UtcNow.DayOfWeek + 1), // Start of current week (Monday)
-                CreatedAt = DateTime.UtcNow,
-                Days = new List<WeeklyPlanDay>
-                {
-                    new WeeklyPlanDay { DayOfWeek = 1, BreakfastName = "Paratha & Omelette", LunchName = "Biryani", DinnerName = "Chicken Karahi", BreakfastPrice = 100, LunchPrice = 200, DinnerPrice = 150 },
-                    new WeeklyPlanDay { DayOfWeek = 2, BreakfastName = "Halwa Puri", LunchName = "Daal Chawal", DinnerName = "Mutton Pulao", BreakfastPrice = 120, LunchPrice = 150, DinnerPrice = 250 },
-                    new WeeklyPlanDay { DayOfWeek = 3, BreakfastName = "Nashta Platter", LunchName = "Chicken Qorma", DinnerName = "Seekh Kebab", BreakfastPrice = 100, LunchPrice = 180, DinnerPrice = 200 },
-                    new WeeklyPlanDay { DayOfWeek = 4, BreakfastName = "Aloo Paratha", LunchName = "Chapli Kebab", DinnerName = "Nihari", BreakfastPrice = 90, LunchPrice = 220, DinnerPrice = 280 },
-                    new WeeklyPlanDay { DayOfWeek = 5, BreakfastName = "Chana Puri", LunchName = "Beef Biryani", DinnerName = "Palak Paneer", BreakfastPrice = 100, LunchPrice = 200, DinnerPrice = 160 },
-                    new WeeklyPlanDay { DayOfWeek = 6, BreakfastName = "French Toast", LunchName = "Karahi Gosht", DinnerName = "Grilled Fish", BreakfastPrice = 80, LunchPrice = 250, DinnerPrice = 300 },
-                    new WeeklyPlanDay { DayOfWeek = 0, BreakfastName = "Special Brunch", LunchName = "Chicken Handi", DinnerName = "BBQ Platter", BreakfastPrice = 150, LunchPrice = 200, DinnerPrice = 350 }
-                }
+            // Pakistani Breakfast Options
+            var breakfasts = new[] {
+                "Aloo Paratha", "Halwa Puri", "Channay", "Nihari", "Paye",
+                "Omelette & Toast", "Daal Paratha", "Anda Paratha", "Siri Paye", "Nashta Thali"
             };
-            dbContext.WeeklyPlans.Add(weeklyPlan);
+            
+            // Pakistani Lunch Options  
+            var lunches = new[] {
+                "Chicken Biryani", "Mutton Pulao", "Beef Korma", "Daal Chawal", "Chicken Karahi",
+                "Aloo Gosht", "Qeema Rice", "Chapli Kebab", "Chicken Jalfrezi", "Mixed Sabzi"
+            };
+            
+            // Pakistani Dinner Options
+            var dinners = new[] {
+                "Chicken Tikka", "Seekh Kebab", "Mutton Handi", "Butter Chicken", "Palak Paneer",
+                "Chicken Korma", "Beef Nihari", "Fish Fry", "Malai Boti", "BBQ Platter"
+            };
+
+            // Seed Multiple Weekly Plans (last 4 weeks)
+            var weeklyPlans = new List<WeeklyPlan>();
+            for (int week = 0; week < 4; week++)
+            {
+                var weekStart = DateTime.UtcNow.Date.AddDays(-7 * week);
+                // Adjust to Monday
+                while (weekStart.DayOfWeek != DayOfWeek.Monday) weekStart = weekStart.AddDays(-1);
+
+                var plan = new WeeklyPlan
+                {
+                    WeekStart = weekStart,
+                    CreatedAt = weekStart,
+                    CreatedById = admin.Id,
+                    Days = new List<WeeklyPlanDay>()
+                };
+
+                var rnd = new Random(week * 100);
+                for (int d = 0; d < 7; d++)
+                {
+                    plan.Days.Add(new WeeklyPlanDay
+                    {
+                        DayOfWeek = d == 6 ? 0 : d + 1, // Monday=1, Sunday=0
+                        BreakfastName = breakfasts[rnd.Next(breakfasts.Length)],
+                        LunchName = lunches[rnd.Next(lunches.Length)],
+                        DinnerName = dinners[rnd.Next(dinners.Length)],
+                        BreakfastPrice = 80 + rnd.Next(60),   // 80-140 PKR
+                        LunchPrice = 150 + rnd.Next(100),      // 150-250 PKR
+                        DinnerPrice = 120 + rnd.Next(130)      // 120-250 PKR
+                    });
+                }
+                weeklyPlans.Add(plan);
+            }
+            dbContext.WeeklyPlans.AddRange(weeklyPlans);
+
+            // Seed Sample Attendance for the current month (25 days for each teacher)
+            var currentMonth = DateTime.UtcNow;
+            var random = new Random(42); // Fixed seed for reproducible results
+            var attendanceList = new List<TeacherAttendance>();
+            
+            foreach (var teacher in teachers)
+            {
+                int daysInMonth = DateTime.DaysInMonth(currentMonth.Year, currentMonth.Month);
+                int daysToSeed = Math.Min(25, daysInMonth);
+                
+                for (int day = 1; day <= daysToSeed; day++)
+                {
+                    var date = new DateTime(currentMonth.Year, currentMonth.Month, day);
+                    
+                    // Weekday pattern - more likely to attend
+                    bool isWeekday = date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday;
+                    int breakfastChance = isWeekday ? 75 : 40;
+                    int lunchChance = isWeekday ? 90 : 50;
+                    int dinnerChance = isWeekday ? 70 : 80;
+                    
+                    var attendance = new TeacherAttendance
+                    {
+                        TeacherId = teacher.Id,
+                        Date = DateOnly.FromDateTime(date),
+                        Breakfast = random.Next(100) < breakfastChance,
+                        Lunch = random.Next(100) < lunchChance,
+                        Dinner = random.Next(100) < dinnerChance,
+                        MarkedBy = admin.Email,
+                        IsVerified = day <= 20, // First 20 days verified
+                        VerifiedAt = day <= 20 ? DateTime.UtcNow.AddDays(-5) : null,
+                        DisputeStatus = "None"
+                    };
+                    attendanceList.Add(attendance);
+                }
+            }
+            dbContext.TeacherAttendances.AddRange(attendanceList);
+
+            // Seed Weekly Menus with rates
+            var weeklyMenus = new List<WeeklyMenu>();
+            var menuRnd = new Random(99);
+            for (int week = 0; week < 4; week++)
+            {
+                var weekStart = DateTime.UtcNow.Date.AddDays(-7 * week);
+                while (weekStart.DayOfWeek != DayOfWeek.Monday) weekStart = weekStart.AddDays(-1);
+                
+                var menu = new WeeklyMenu
+                {
+                    WeekStartDate = weekStart,
+                    CreatedAt = weekStart,
+                    CreatedById = admin.Id,
+                    BreakfastRate = 80 + menuRnd.Next(60),   // 80-140 PKR
+                    LunchRate = 150 + menuRnd.Next(100),      // 150-250 PKR
+                    DinnerRate = 120 + menuRnd.Next(130)      // 120-250 PKR
+                };
+                weeklyMenus.Add(menu);
+            }
+            dbContext.WeeklyMenus.AddRange(weeklyMenus);
 
             dbContext.SaveChanges();
-            Console.WriteLine($"✅ Seeded: 1 admin, {teachers.Count} teachers, {settings.Count} settings, 1 weekly plan");
+            Console.WriteLine($"✅ Seeded: 1 admin, {teachers.Count} teachers, {settings.Count} settings, {weeklyPlans.Count} weekly plans, {weeklyMenus.Count} menus, {attendanceList.Count} attendance records");
         }
     }
 }

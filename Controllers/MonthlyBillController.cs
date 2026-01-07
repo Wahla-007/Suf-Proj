@@ -52,7 +52,7 @@ namespace mess_management.Controllers
         public IActionResult Create()
         {
             if (User.Claims.FirstOrDefault(c => c.Type == "isAdmin")?.Value != "true") return Forbid();
-            ViewData["TeacherId"] = new SelectList(_context.AspNetUsers, "Id", "Id");
+            ViewData["TeacherId"] = new SelectList(_context.AspNetUsers.Where(u => u.IsAdmin != true), "Id", "Email");
             return View();
         }
 
@@ -70,7 +70,7 @@ namespace mess_management.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeacherId"] = new SelectList(_context.AspNetUsers, "Id", "Id", monthlyBill.TeacherId);
+            ViewData["TeacherId"] = new SelectList(_context.AspNetUsers.Where(u => u.IsAdmin != true), "Id", "Email", monthlyBill.TeacherId);
             return View(monthlyBill);
         }
 
@@ -88,7 +88,7 @@ namespace mess_management.Controllers
             {
                 return NotFound();
             }
-            ViewData["TeacherId"] = new SelectList(_context.AspNetUsers, "Id", "Id", monthlyBill.TeacherId);
+            ViewData["TeacherId"] = new SelectList(_context.AspNetUsers.Where(u => u.IsAdmin != true), "Id", "Email", monthlyBill.TeacherId);
             return View(monthlyBill);
         }
 
@@ -125,7 +125,7 @@ namespace mess_management.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeacherId"] = new SelectList(_context.AspNetUsers, "Id", "Id", monthlyBill.TeacherId);
+            ViewData["TeacherId"] = new SelectList(_context.AspNetUsers.Where(u => u.IsAdmin != true), "Id", "Email", monthlyBill.TeacherId);
             return View(monthlyBill);
         }
 

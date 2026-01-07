@@ -65,4 +65,28 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-secondary text-white"><i class="fas fa-download me-2"></i>Reports & Downloads</div>
+            <div class="card-body">
+                <h5 class="card-title">Export Data</h5>
+                <p class="card-text">Download reports as CSV files for analysis and record-keeping.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-outline-secondary btn-sm" asp-controller="Reports" asp-action="AllBills">
+                        <i class="fas fa-file-invoice me-1"></i> All Bills
+                    </a>
+                    <a class="btn btn-outline-secondary btn-sm" asp-controller="Reports" asp-action="AllAttendance">
+                        <i class="fas fa-calendar-check me-1"></i> Attendance
+                    </a>
+                    <a class="btn btn-outline-secondary btn-sm" asp-controller="Reports" asp-action="UsersList">
+                        <i class="fas fa-users me-1"></i> Users
+                    </a>
+                    <a class="btn btn-outline-secondary btn-sm" asp-controller="Reports" asp-action="FinancialSummary">
+                        <i class="fas fa-chart-line me-1"></i> Financial
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

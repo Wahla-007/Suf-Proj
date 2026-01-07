@@ -413,7 +413,7 @@
             <i class="fas fa-th-large text-primary"></i> Quick Shortcuts
         </h5>
         <div class="row g-4">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <a href="@Url.Action("AttendanceHistory", "Teacher")" class="shortcut-btn">
                     <div class="shortcut-icon-wrapper" style="color: #6366f1;">
                         <i class="fas fa-calendar-check"></i>
@@ -422,7 +422,7 @@
                     <span class="shortcut-desc">Detailed logs of your presence</span>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <a href="@Url.Action("MyBills", "Teacher")" class="shortcut-btn">
                     <div class="shortcut-icon-wrapper" style="color: #10b981;">
                         <i class="fas fa-file-invoice"></i>
@@ -431,7 +431,7 @@
                     <span class="shortcut-desc">Manage and pay your dues</span>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <a href="@Url.Action("ViewMenu", "Teacher")" class="shortcut-btn">
                     <div class="shortcut-icon-wrapper" style="color: #f59e0b;">
                         <i class="fas fa-utensils"></i>
@@ -440,7 +440,25 @@
                     <span class="shortcut-desc">View planned rates & dishes</span>
                 </a>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <a href="@Url.Action("MyBill", "Reports")" class="shortcut-btn">
+                    <div class="shortcut-icon-wrapper" style="color: #8b5cf6;">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <span class="shortcut-title">Download Bill</span>
+                    <span class="shortcut-desc">Export bill as CSV</span>
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="@Url.Action("MyAttendance", "Reports")" class="shortcut-btn">
+                    <div class="shortcut-icon-wrapper" style="color: #06b6d4;">
+                        <i class="fas fa-file-csv"></i>
+                    </div>
+                    <span class="shortcut-title">Download Attendance</span>
+                    <span class="shortcut-desc">Export attendance CSV</span>
+                </a>
+            </div>
+            <div class="col-md-2">
                 <a href="@Url.Action("ChangePassword", "Account")" class="shortcut-btn">
                     <div class="shortcut-icon-wrapper" style="color: #ef4444;">
                         <i class="fas fa-shield-halved"></i>
