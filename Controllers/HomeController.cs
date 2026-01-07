@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Linq;
 using mess_management.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,17 @@ namespace mess_management.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            // Redirect users to their appropriate dashboard based on role
+            var isAdmin = User.Claims.FirstOrDefault(c => c.Type == "isAdmin")?.Value == "true";
+            
+            if (isAdmin)
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Teacher");
+            }
         }
 
         public IActionResult Privacy()

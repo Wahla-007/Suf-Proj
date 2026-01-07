@@ -140,7 +140,7 @@ namespace mess_management
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = "admin@mess.pk",
-                FullName = "Muhammad Arslan (Admin)",
+                FullName = "Hamna (Admin)",
                 PasswordHash = adminPasswordHash,
                 IsAdmin = true,
                 IsPasswordChanged = true,

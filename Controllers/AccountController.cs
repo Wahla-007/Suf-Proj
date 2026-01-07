@@ -93,8 +93,22 @@ namespace mess_management.Controllers
                 return RedirectToAction("ChangePassword", new { firstTime = true });
             }
 
-            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
-            return RedirectToAction("Index", "Home");
+            // Redirect based on user role - Admin goes to Admin Dashboard, Teachers go to Teacher Dashboard
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl) && !returnUrl.Contains("/Home"))
+            {
+                return Redirect(returnUrl);
+            }
+            
+            if (user.IsAdmin == true)
+            {
+                _logger.LogInformation("Admin {Email} logged in, redirecting to Admin Dashboard", user.Email);
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                _logger.LogInformation("Teacher {Email} logged in, redirecting to Teacher Dashboard", user.Email);
+                return RedirectToAction("Dashboard", "Teacher");
+            }
         }
 
         [Authorize]
